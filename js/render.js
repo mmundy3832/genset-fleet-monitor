@@ -50,7 +50,18 @@
         var tooltip = marker.getTooltip();
         if (tooltip) {
           var tooltipClass = "pin-label" + (status === "fault" ? " fault" : "");
-          tooltip._container.className = "leaflet-tooltip " + tooltipClass;
+          tooltip.options.className = tooltipClass;
+          if (tooltip.getElement && tooltip.getElement()) {
+            var elem = tooltip.getElement();
+            var leafletClass = "";
+            for (var i = 0; i < elem.classList.length; i++) {
+              if (elem.classList[i].indexOf("leaflet-tooltip-") === 0) {
+                leafletClass = " " + elem.classList[i];
+                break;
+              }
+            }
+            elem.className = "leaflet-tooltip " + tooltipClass + leafletClass;
+          }
         }
       }
       lastSiteStatus[site.id] = status;
@@ -247,8 +258,8 @@
       if (marker) {
         var existingTooltip = marker.getTooltip();
         var hasFault = false;
-        if (existingTooltip && existingTooltip._container) {
-          hasFault = existingTooltip._container.classList.contains("fault");
+        if (existingTooltip && existingTooltip.options && existingTooltip.options.className) {
+          hasFault = existingTooltip.options.className.indexOf("fault") >= 0;
         }
         var tooltipClass = "pin-label" + (hasFault ? " fault" : "");
         marker.unbindTooltip();
