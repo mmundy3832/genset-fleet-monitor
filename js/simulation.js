@@ -214,6 +214,11 @@
 
     activeFault: function () { return activeFault; },
 
+    /* Tuning constants exposed read-only: { HISTORY, WOBBLE_MAX, WOBBLE_STEP, FAULT_RAMP_S }. */
+    constants: function () {
+      throw new Error("NotImplemented: Sim.constants");
+    },
+
     /* Classify a value for one asset's tag against its model ranges (quality code). */
     validate: function (gensetId, tag, value) {
       var gs = gensets[gensetId];
