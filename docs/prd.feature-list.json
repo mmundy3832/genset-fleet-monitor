@@ -2,7 +2,7 @@
   "spec_ref": "prd.md",
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
-  "updated_at": "2026-10-07T18:17:51Z",
+  "updated_at": "2026-10-07T18:21:30Z",
   "status": "pending",
   "safety_critical": false,
   "safety_notes": "",
@@ -1336,7 +1336,7 @@
             19
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -1371,16 +1371,48 @@
         ],
         "notes": "Overlaps task-007's path test on purpose as the post-merge check. Pure file assertion. Keyless dark basemap: Esri World_Dark_Gray_Base (server.arcgisonline.com) with Esri attribution."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
         "files_created": [],
-        "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "files_modified": [
+          "js/render.js"
+        ],
+        "tests_written": [
+          "tests/pages.test.js::.nojekyll exists and all local references are relative"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/pages.test.js::.nojekyll exists and all local references are relative",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "Keyless Esri dark basemap replaces CARTO (API key now required); site labels permanent only at zoom >= 7. Headless Chromium: no console errors.",
+        "test_files": [
+          "tests/pages.test.js"
+        ],
+        "touched_project_suites": [
+          {
+            "project": "genset-fleet-monitor",
+            "total": 32,
+            "passed": 32,
+            "failed": 0,
+            "failed_methods": []
+          }
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "implement": "claude-haiku",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-012",
+        "red_commit": "5d44a57",
+        "green_commit": "cd8d0f3",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     }
   ],
