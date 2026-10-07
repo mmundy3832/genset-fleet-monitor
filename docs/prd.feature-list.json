@@ -2,7 +2,7 @@
   "spec_ref": "prd.md",
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
-  "updated_at": "2026-10-07T18:03:18Z",
+  "updated_at": "2026-10-07T18:06:53Z",
   "status": "pending",
   "safety_critical": false,
   "safety_notes": "",
@@ -778,7 +778,7 @@
             16
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-009-test-b",
@@ -787,7 +787,7 @@
             16
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -821,16 +821,44 @@
         ],
         "notes": "Integration layer: spawns a real process and real socket, so no DI seam. Pick the port from an ephemeral listen-then-close to avoid collisions across concurrent worktrees. Kill the process group on exit."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
         "files_created": [],
-        "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "files_modified": [
+          "run.sh"
+        ],
+        "tests_written": [
+          "tests/run-sh.test.js::run.sh is executable and passes bash -n",
+          "tests/run-sh.test.js::run.sh with NO_BROWSER=1 serves index.html with 200 within 3 s"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/run-sh.test.js::run.sh is executable and passes bash -n",
+            "passed": true
+          },
+          {
+            "method": "tests/run-sh.test.js::run.sh with NO_BROWSER=1 serves index.html with 200 within 3 s",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "run.sh honors NO_BROWSER; integration test spawns the real server with fake browser openers on PATH.",
+        "test_files": [
+          "tests/run-sh.test.js"
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "implement": "claude-haiku",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-009",
+        "red_commit": "09a1427",
+        "green_commit": "21db757",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
