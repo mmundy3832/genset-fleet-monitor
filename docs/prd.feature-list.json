@@ -1007,5 +1007,28 @@
       "error_log": []
     }
   ],
-  "audit": null
+  "audit": {
+    "last_audited_at": "2026-10-07T17:57:36Z",
+    "audited_by_skill": "feature-list-audit@1.1",
+    "prd_ref": "prd.md",
+    "ac_total": 22,
+    "ac_covered": 22,
+    "ac_gaps": [],
+    "ac_orphan_references": [],
+    "invalid_waivers": [],
+    "coverage_percent": 100,
+    "report_path": "prd.feature-list.coverage.md",
+    "piv_recommendation": "PASS",
+    "user_approval_below_95": null,
+    "structural_hash": "82c315c5311ca955d8ffea713248bd7badc13a403f4f37ac31e9742ba2ee05e3",
+    "parallelism": {
+      "tasks": 12,
+      "max_width": 6,
+      "critical_path": 4,
+      "cycles": [],
+      "dangling_dependencies": [],
+      "unjustified_dependencies": [],
+      "workspace": "not needed"
+    }
+  }
 }
