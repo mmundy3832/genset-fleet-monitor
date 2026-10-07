@@ -216,7 +216,7 @@
 
     /* Tuning constants exposed read-only: { HISTORY, WOBBLE_MAX, WOBBLE_STEP, FAULT_RAMP_S }. */
     constants: function () {
-      throw new Error("NotImplemented: Sim.constants");
+      return { HISTORY, WOBBLE_MAX, WOBBLE_STEP, FAULT_RAMP_S };
     },
 
     /* Classify a value for one asset's tag against its model ranges (quality code). */
