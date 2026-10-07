@@ -3,7 +3,7 @@
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
   "updated_at": "2026-10-07T18:21:30Z",
-  "status": "pending",
+  "status": "passed",
   "safety_critical": false,
   "safety_notes": "",
   "architecture_decisions": {
