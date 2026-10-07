@@ -1,8 +1,8 @@
 {
   "$schema_name": "genset-telemetry-schema",
-  "version": "0.1.0-draft",
+  "version": "1.0.0",
   "updated": "2026-10-07",
-  "status": "PLACEHOLDER ranges from general gas-engine knowledge. Replace with sourced values from docs/research/operating-ranges.md before bumping to 1.0.0.",
+  "status": "Operating ranges sourced from docs/research/operating-ranges.md (EMCP 4 registers and Waukesha ESM), package ratings from docs/research/brand-and-specs.md.",
   "quality_codes": {
     "GOOD": "Value inside the defined normal range for the asset model.",
     "OUT_OF_RANGE": "Value outside normal range but inside alarm limits. Validation event raised.",
@@ -17,12 +17,12 @@
       "decimals": 0,
       "marquee": true,
       "ranges": {
-        "G3520":  { "nominal": 1800, "min": 1760, "max": 1840, "alarm_lo": 1700, "alarm_hi": 1900 },
-        "9394S5": { "nominal": 1200, "min": 1170, "max": 1230, "alarm_lo": 1130, "alarm_hi": 1270 }
+        "G3520":  { "nominal": 1800, "min": 1790, "max": 1810, "alarm_lo": null, "alarm_hi": 1980, "provenance": "estimate" },
+        "9394S5": { "nominal": 1200, "min": 1195, "max": 1205, "alarm_lo": null, "alarm_hi": 1320, "provenance": "estimate" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Engine Speed", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "Engine RPM",   "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Engine rpm", "register": "203", "scaling": "0.125 rpm/bit", "provenance": "sourced" },
+        "Waukesha":    { "name": "Engine Speed", "register": null, "scaling": null, "provenance": "estimate" }
       }
     },
     {
@@ -32,12 +32,12 @@
       "decimals": 2,
       "marquee": true,
       "ranges": {
-        "G3520":  { "nominal": 2.60, "min": 0.00, "max": 2.60, "alarm_lo": null, "alarm_hi": 2.73 },
-        "9394S5": { "nominal": 2.00, "min": 0.00, "max": 2.00, "alarm_lo": null, "alarm_hi": 2.10 }
+        "G3520":  { "nominal": 2.6, "min": 0, "max": 2.6, "alarm_lo": null, "alarm_hi": 2.73, "provenance": "sourced" },
+        "9394S5": { "nominal": 2.0, "min": 0, "max": 2.0, "alarm_lo": null, "alarm_hi": 2.10, "provenance": "sourced" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Generator Total Real Power", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "Gen kW",                     "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Generator Total Real Power", "register": "106-107", "scaling": "1 W/bit", "provenance": "sourced" },
+        "Waukesha":    { "name": "Engine/Gen Power", "register": null, "scaling": null, "provenance": "estimate" }
       }
     },
     {
@@ -46,12 +46,12 @@
       "unit": "degC",
       "decimals": 1,
       "ranges": {
-        "G3520":  { "nominal": 93.0, "min": 80.0, "max": 99.0, "alarm_lo": null, "alarm_hi": 104.0 },
-        "9394S5": { "nominal": 88.0, "min": 77.0, "max": 96.0, "alarm_lo": null, "alarm_hi": 102.0 }
+        "G3520":  { "nominal": 99, "min": 90, "max": 99, "alarm_lo": null, "alarm_hi": 104, "provenance": "estimate" },
+        "9394S5": { "nominal": 82, "min": 77, "max": 85, "alarm_lo": null, "alarm_hi": 93, "provenance": "estimate" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Engine Coolant Temperature", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "JW Temp",                    "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Engine Coolant Temperature", "register": "201", "scaling": "0.03125 C/bit, offset -273", "provenance": "sourced" },
+        "Waukesha":    { "name": "Jacket Water Temp", "register": null, "scaling": null, "provenance": "estimate" }
       }
     },
     {
@@ -60,12 +60,12 @@
       "unit": "kPa",
       "decimals": 0,
       "ranges": {
-        "G3520":  { "nominal": 420, "min": 300, "max": 550, "alarm_lo": 240, "alarm_hi": null },
-        "9394S5": { "nominal": 380, "min": 300, "max": 480, "alarm_lo": 210, "alarm_hi": null }
+        "G3520":  { "nominal": 400, "min": 350, "max": 450, "alarm_lo": 280, "alarm_hi": null, "provenance": "estimate" },
+        "9394S5": { "nominal": 380, "min": 340, "max": 450, "alarm_lo": 210, "alarm_hi": null, "provenance": "estimate" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Engine Oil Pressure", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "Oil Press",           "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Engine Oil Pressure", "register": "200", "scaling": "0.125 kPa/bit", "provenance": "sourced" },
+        "Waukesha":    { "name": "Lube Oil Pressure", "register": null, "scaling": null, "provenance": "estimate" }
       }
     },
     {
@@ -74,12 +74,12 @@
       "unit": "degC",
       "decimals": 0,
       "ranges": {
-        "G3520":  { "nominal": 480, "min": 400, "max": 560, "alarm_lo": null, "alarm_hi": 600 },
-        "9394S5": { "nominal": 650, "min": 560, "max": 720, "alarm_lo": null, "alarm_hi": 760 }
+        "G3520":  { "nominal": 500, "min": 450, "max": 540, "alarm_lo": null, "alarm_hi": 580, "provenance": "estimate" },
+        "9394S5": { "nominal": 620, "min": 580, "max": 650, "alarm_lo": null, "alarm_hi": 700, "provenance": "estimate" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Exhaust Temperature",   "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "Exh Temp (stack)",      "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Exhaust Temperature", "register": "801", "scaling": "0.03125 C/bit, offset -273", "provenance": "sourced" },
+        "Waukesha":    { "name": "Cylinder n Exhaust Temp", "register": null, "scaling": null, "provenance": "estimate" }
       }
     },
     {
@@ -88,12 +88,12 @@
       "unit": "scfh",
       "decimals": 0,
       "ranges": {
-        "G3520":  { "nominal": 21000, "min": 0, "max": 24000, "alarm_lo": null, "alarm_hi": 25500 },
-        "9394S5": { "nominal": 19000, "min": 0, "max": 21500, "alarm_lo": null, "alarm_hi": 23000 }
+        "G3520":  { "nominal": 19500, "min": 9000, "max": 21100, "alarm_lo": null, "alarm_hi": null, "provenance": "estimate" },
+        "9394S5": { "nominal": 16500, "min": 8500, "max": 17430, "alarm_lo": null, "alarm_hi": null, "provenance": "estimate" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Fuel Flow Rate (gas)", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "Fuel Flow",            "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Not exposed (Cat GECM fuel valve not exposed)", "register": null, "scaling": null, "provenance": "estimate" },
+        "Waukesha":    { "name": "Derived from load and BSFC", "register": null, "scaling": null, "provenance": "estimate" }
       }
     },
     {
@@ -103,12 +103,12 @@
       "decimals": 1,
       "cumulative": true,
       "ranges": {
-        "G3520":  { "nominal": null, "min": 0, "max": null, "alarm_lo": null, "alarm_hi": null },
-        "9394S5": { "nominal": null, "min": 0, "max": null, "alarm_lo": null, "alarm_hi": null }
+        "G3520":  { "nominal": null, "min": 0, "max": null, "alarm_lo": null, "alarm_hi": null, "provenance": "sourced" },
+        "9394S5": { "nominal": null, "min": 0, "max": null, "alarm_lo": null, "alarm_hi": null, "provenance": "sourced" }
       },
       "oem_source": {
-        "Caterpillar": { "name": "Generator Total kW Hours Export", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
-        "Waukesha":    { "name": "kWh Total",                       "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+        "Caterpillar": { "name": "Generator Total Real Energy Exported", "register": "144-145", "scaling": "1 kWh/bit", "provenance": "sourced" },
+        "Waukesha":    { "name": "kWh", "register": null, "scaling": null, "provenance": "estimate" }
       }
     }
   ],
