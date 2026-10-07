@@ -238,13 +238,37 @@
     renderPanel();
   }
 
+  function updateTooltipPermanence() {
+    var zoom = map.getZoom();
+    var shouldBePermanent = zoom >= 7;
+    var sites = Sim.sites().sites;
+    sites.forEach(function (site) {
+      var marker = markers[site.id];
+      if (marker) {
+        var existingTooltip = marker.getTooltip();
+        var hasFault = false;
+        if (existingTooltip && existingTooltip._container) {
+          hasFault = existingTooltip._container.classList.contains("fault");
+        }
+        var tooltipClass = "pin-label" + (hasFault ? " fault" : "");
+        marker.unbindTooltip();
+        marker.bindTooltip(site.name, {
+          className: tooltipClass,
+          direction: "top",
+          offset: [0, -10],
+          permanent: shouldBePermanent
+        });
+      }
+    });
+  }
+
   function initMap() {
     map = L.map("map", { zoomControl: false, attributionControl: true })
       .setView([31.3, -99.5], 6);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; CARTO, &copy; OpenStreetMap contributors",
-      maxZoom: 19
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+      attribution: "Tiles &copy; Esri, HERE, Garmin, OpenStreetMap contributors",
+      maxZoom: 16
     }).addTo(map);
 
     var sites = Sim.sites().sites;
@@ -260,7 +284,7 @@
           iconAnchor: [9, 9]
         })
       })
-      .bindTooltip(site.name, { className: "pin-label", direction: "top", offset: [0, -10], permanent: true })
+      .bindTooltip(site.name, { className: "pin-label", direction: "top", offset: [0, -10], permanent: false })
       .addTo(map);
 
       marker.on("click", function () {
@@ -273,6 +297,9 @@
       markers[site.id] = marker;
       lastSiteStatus[site.id] = status;
     });
+
+    updateTooltipPermanence();
+    map.on("zoomend", updateTooltipPermanence);
   }
 
   function openSchema() {
