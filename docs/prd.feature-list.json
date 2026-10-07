@@ -1323,7 +1323,7 @@
     {
       "id": "task-012",
       "name": "Verify GitHub Pages readiness",
-      "description": "Assert AC-19 end to end: .nojekyll exists at the repo root and no local asset, data, or script reference in index.html or js/ starts with a slash. Record the Pages URL in README once the repo is pushed.",
+      "description": "Assert AC-19 end to end: .nojekyll exists at the repo root and no local asset, data, or script reference in index.html or js/ starts with a slash. Record the Pages URL in README once the repo is pushed. Also: the merged renderer used CARTO tiles, which now require an API key (found by headless Chromium on 2026-10-07); switch to a keyless dark basemap and assert the tile host needs no key, and show permanent site labels only at zoom 7 and closer so the Permian cluster does not overlap.",
       "acceptance_criteria": [
         19
       ],
@@ -1369,7 +1369,7 @@
         "reference_patterns": [
           "regex over src=, href=, fetch( for a leading / not followed by /"
         ],
-        "notes": "Overlaps task-007's path test on purpose as the post-merge check. Pure file assertion."
+        "notes": "Overlaps task-007's path test on purpose as the post-merge check. Pure file assertion. Keyless dark basemap: Esri World_Dark_Gray_Base (server.arcgisonline.com) with Esri attribution."
       },
       "status": "pending",
       "result": {
