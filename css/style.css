@@ -104,6 +104,7 @@ button.ghost { background: transparent; }
 #panel .empty { color: var(--muted); padding: 40px 10px; text-align: center; }
 .panel-head { display: flex; align-items: baseline; justify-content: space-between; }
 .panel-head button { font-size: 12px; padding: 3px 8px; }
+.panel-head .back { font-size: 11px; }
 
 .gs {
   background: var(--bg-3); border: 1px solid var(--line); border-radius: 6px;
@@ -116,8 +117,8 @@ button.ghost { background: transparent; }
   font-weight: 800; font-size: 11px; letter-spacing: 0.08em;
   padding: 3px 7px; border-radius: 3px; font-family: var(--sans);
 }
-.oem.cat { background: var(--cat-yellow); color: #111; }
-.oem.wks { background: var(--wks-blue); color: #fff; }
+.oem.cat { background: #2a3442; color: #e6edf5; border: 1px solid #3a4656; }
+.oem.wks { background: #1f2a38; color: #e6edf5; border: 1px solid #2a3952; }
 .gs-id { font-weight: 600; }
 .gs-meta { color: var(--muted); font-size: 11px; font-family: var(--mono); }
 .status { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
@@ -161,6 +162,7 @@ tr.alarm .spark polyline { stroke: var(--amber); }
 }
 .qb.GOOD { color: var(--green); border-color: var(--green); }
 .qb.OUT_OF_RANGE, .qb.ALARM { color: var(--amber); border-color: var(--amber); }
+.qb.estimate { color: var(--amber); border-color: var(--amber); }
 
 .controls { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .controls button { font-size: 11px; padding: 4px 8px; }

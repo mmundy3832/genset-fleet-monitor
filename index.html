@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genset Fleet Monitor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      Genset Fleet Monitor
+      <small>simulated PROPWR fleet, Texas</small>
+    </div>
+    <div class="kpis">
+      <div class="kpi">
+        <div class="v" id="kpi-mw">--</div>
+        <div class="l">Total MW</div>
+      </div>
+      <div class="kpi">
+        <div class="v" id="kpi-running">--</div>
+        <div class="l">Running</div>
+      </div>
+      <div class="kpi">
+        <div class="v" id="kpi-alarms">--</div>
+        <div class="l">Alarms</div>
+      </div>
+      <div class="kpi">
+        <div class="v" id="kpi-version">--</div>
+        <div class="l">Schema</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btn-fault" class="amber" title="Push one random running unit out of spec. Its site pin turns amber and the alarm shows on its card.">Simulate Fault</button>
+      <button id="btn-clear" title="Return the faulted unit to nominal and clear its alarm.">Clear Fault</button>
+      <button id="btn-schema" class="ghost" title="Open the canonical tag schema: units, per-model ranges, raw OEM names and their provenance.">Schema</button>
+    </div>
+  </header>
+
+  <div id="map">
+    <div class="map-legend">
+      <span style="background: var(--green);"></span> Running
+      <span style="background: var(--gray); margin-left: 12px;"></span> Standby
+      <span style="background: var(--amber); margin-left: 12px;"></span> Alarm
+    </div>
+  </div>
+
+  <aside id="panel">
+    <div class="empty">Select a site pin to open its panel.</div>
+  </aside>
+
+  <footer>
+    <span class="disc">This is an independent portfolio demonstration built with simulated data. It is not affiliated with, endorsed by, or connected to PROPWR, ProPetro, Caterpillar, or INNIO Waukesha. All telemetry values are generated for illustration only and do not represent any real equipment or installation. OEM names, models, and logos are referenced solely to illustrate a multi-vendor data-normalization concept.</span>
+  </footer>
+
+  <div id="toast"></div>
+
+  <div id="schema-modal" class="modal-bg">
+    <div class="modal">
+      <div class="panel-head">
+        <div>
+          <h2>Tag Schema</h2>
+          <div class="sub" id="schema-version"></div>
+        </div>
+        <button class="close" id="schema-close" title="Close">×</button>
+      </div>
+      <table class="schema">
+        <thead>
+          <tr>
+            <th>Canonical tag</th>
+            <th>Unit</th>
+            <th colspan="1">G3520 (Cat)</th>
+            <th colspan="1">9394S5 (Waukesha)</th>
+            <th colspan="2">OEM sources</th>
+          </tr>
+        </thead>
+        <tbody id="schema-tbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="js/simulation.js"></script>
+  <script src="js/view.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="js/render.js"></script>
+</body>
+</html>
