@@ -516,7 +516,7 @@
             8
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-006-test-b",
@@ -525,7 +525,7 @@
             9
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-006-test-c",
@@ -534,7 +534,7 @@
             10
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-006-test-d",
@@ -543,7 +543,7 @@
             11
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-006-test-e",
@@ -553,7 +553,7 @@
             22
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -592,16 +592,59 @@
         ],
         "notes": "Pure functions, no seams. AC-8, AC-10 visual parts and AC-11 toast display are verified in task-007 (manual callouts); this task covers their pure logic only. controlGuard test passes a spy Sim object and asserts no method was called."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
-        "files_created": [],
+        "files_created": [
+          "js/view.js"
+        ],
         "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "tests_written": [
+          "tests/view.test.js::pinClass maps running, standby, fault to pin classes",
+          "tests/view.test.js::formatKpis renders MW to one decimal, running/total, alarms, version",
+          "tests/view.test.js::gaugeArc clamps fraction to [0,1] and sparklinePoints maps history to SVG points",
+          "tests/view.test.js::controlGuard returns the monitor-only message and calls no Sim mutator",
+          "tests/view.test.js::schemaRows returns one row per tag with unit, per-model ranges, both OEM raw names and provenance"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/view.test.js::pinClass maps running, standby, fault to pin classes",
+            "passed": true
+          },
+          {
+            "method": "tests/view.test.js::formatKpis renders MW to one decimal, running/total, alarms, version",
+            "passed": true
+          },
+          {
+            "method": "tests/view.test.js::gaugeArc clamps fraction to [0,1] and sparklinePoints maps history to SVG points",
+            "passed": true
+          },
+          {
+            "method": "tests/view.test.js::controlGuard returns the monitor-only message and calls no Sim mutator",
+            "passed": true
+          },
+          {
+            "method": "tests/view.test.js::schemaRows returns one row per tag with unit, per-model ranges, both OEM raw names and provenance",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "window.View: pinClass, formatKpis, gaugeArc, sparklinePoints, schemaRows (with provenance), controlGuard.",
+        "test_files": [
+          "tests/view.test.js"
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "implement": "claude-haiku",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-006",
+        "red_commit": "42f8a43",
+        "green_commit": "26b5dad",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
