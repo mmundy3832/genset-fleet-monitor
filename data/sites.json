@@ -48,7 +48,7 @@
       "id": "pecos-pad",
       "name": "Wolfcamp Pad 7",
       "type": "drill head",
-      "lat": 31.3380, "lon": -103.6210,
+      "lat": 31.6, "lon": -102.9,
       "gensets": [
         { "id": "WC7-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11E8", "status": "running", "load": 0.81 },
         { "id": "WC7-02", "unit": "PWR2.0",   "serial": "SIM-WKS-33B0F2", "status": "standby", "load": 0.00 }
