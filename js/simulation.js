@@ -208,6 +208,16 @@
 
     activeFault: function () { return activeFault; },
 
+    /* Classify a value for one asset's tag against its model ranges (quality code). */
+    validate: function (gensetId, tag, value) {
+      throw new Error("NotImplemented: Sim.validate");
+    },
+
+    /* Test accessor: set one tag's value on an asset and run validation + event emission for it. */
+    setValue: function (gensetId, tag, value) {
+      throw new Error("NotImplemented: Sim.setValue");
+    },
+
     /* Pick a random running asset and push one tag out of spec. */
     simulateFault: function () {
       if (activeFault) Sim.clearFault();
