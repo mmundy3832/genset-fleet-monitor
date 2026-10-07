@@ -1,0 +1,1011 @@
+{
+  "spec_ref": "prd.md",
+  "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
+  "created_at": "2026-10-07T17:55:52Z",
+  "updated_at": "2026-10-07T17:55:52Z",
+  "status": "pending",
+  "safety_critical": false,
+  "safety_notes": "",
+  "architecture_decisions": {
+    "stack": "Plain static files, no framework, no build step; deployable to GitHub Pages and via run.sh locally",
+    "files": {
+      "index.html": "entry point",
+      "data/schema.json": "canonical tag definitions, versioned, single source of truth for both OEM panels",
+      "data/sites.json": "sites and installed gensets",
+      "js/simulation.js": "telemetry generation, wobble, fault logic, validation (no DOM)",
+      "js/view.js": "pure view-model helpers (added in Code so render logic is unit-testable)",
+      "js/render.js": "map, panel, gauges, sparklines, modal, toast (DOM + Leaflet)",
+      "css/style.css": "dark control-room styling, green/amber only",
+      "README.md": "overview, clone-and-run, schema explanation, disclaimer",
+      "run.sh": "one-line local launch"
+    },
+    "data_model": "Site -> Genset (asset) -> live telemetry tags; both OEMs resolve tags through schema.json",
+    "fleet_scope": "Cat G3520 (PWR2.6-S, PWR2.6-M) and Waukesha 9394S5 (PWR2.0); Solar Taurus 60 (PWR5.7) deferred",
+    "palette": "slate background, green healthy, amber alarm, no red",
+    "tests": "node --test with node:assert, zero dependencies; browser IIFE modules loaded through a vm helper"
+  },
+  "workspace": null,
+  "tasks": [
+    {
+      "id": "task-001",
+      "name": "Add data integrity tests for schema.json and sites.json",
+      "description": "Write node --test tests that parse data/schema.json and data/sites.json and assert the structural and cross-reference rules in AC-1, AC-2, AC-20, AC-21. The data files already exist from the scaffold; this task adds the tests and fixes any data defects they expose.",
+      "acceptance_criteria": [
+        1,
+        2,
+        20,
+        21
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-001-test-a",
+          "name": "tests/data.test.js::schema has semver version and complete per-model ranges and oem_source",
+          "covers_acceptance_criteria": [
+            1
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-001-test-b",
+          "name": "tests/data.test.js::sites cross-reference units and models and use SIM- serials",
+          "covers_acceptance_criteria": [
+            2
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-001-test-c",
+          "name": "tests/data.test.js::sites include two data centers, two drill heads near Midland, one hospital",
+          "covers_acceptance_criteria": [
+            20
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-001-test-d",
+          "name": "tests/data.test.js::sites use only PWR2.6-S, PWR2.6-M, PWR2.0 and models G3520, 9394S5",
+          "covers_acceptance_criteria": [
+            21
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 1,
+      "dependencies": [],
+      "dependency_reasons": {},
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-001-s1",
+          "name": "Create tests/ directory and package.json with \"test\": \"node --test tests/\"",
+          "status": "pending"
+        },
+        {
+          "id": "task-001-s2",
+          "name": "Write data.test.js",
+          "status": "pending"
+        },
+        {
+          "id": "task-001-s3",
+          "name": "Fix any data defects the tests expose",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "data",
+          "tests"
+        ],
+        "likely_files": [
+          "data/schema.json",
+          "data/sites.json",
+          "tests/data.test.js",
+          "package.json"
+        ],
+        "reference_patterns": [
+          "node:test + node:assert/strict, no dependencies"
+        ],
+        "notes": "SUT is JSON data read with fs; pure assertions, no seams. Semver check must accept a -draft prerelease until task-011 lands (AC-22 owns the no-placeholder rule)."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-002",
+      "name": "Create vm-based module loader for browser IIFE modules",
+      "description": "The JS modules attach themselves to window inside an IIFE and have no DOM dependencies. Write tests/helpers/load-module.js that reads a js file, runs it in a node vm context with a stub window, and returns window. Include a loadSim() convenience that also initializes Sim with the repo data files. Infrastructure only: no PRD acceptance criterion.",
+      "acceptance_criteria": [],
+      "test_layer": "waived",
+      "verify_subtasks": [],
+      "waiver": {
+        "ac_id": 0,
+        "ac_text_token": "no PRD acceptance criterion",
+        "justification": "Test harness helper with no product behavior; proven by the tests that use it."
+      },
+      "priority": "high",
+      "estimated_hours": 0.5,
+      "dependencies": [],
+      "dependency_reasons": {},
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-002-s1",
+          "name": "Write tests/helpers/load-module.js",
+          "status": "pending"
+        },
+        {
+          "id": "task-002-s2",
+          "name": "Smoke test: loading js/simulation.js exposes Sim with init and tick",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "tests/helpers"
+        ],
+        "likely_files": [
+          "tests/helpers/load-module.js"
+        ],
+        "reference_patterns": [
+          "vm.runInNewContext(src, { window: {}, Math, Date })"
+        ],
+        "notes": "Synthetic waiver per the pure-infrastructure convention (ac_id 0). Consumed by task-003 through task-006."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-003",
+      "name": "Test nominal wobble bound and standby behavior in simulation.js",
+      "description": "Assert AC-3 and AC-7 against js/simulation.js: running assets stay within 0.5 percent of nominal over 300 ticks with no fault, standby assets report zero speed and power with NOT_RUNNING quality, and energy_total integrates real_power/3600 per tick on running assets and holds on standby. Adjust WOBBLE_MAX or nominalFor if the bound is violated.",
+      "acceptance_criteria": [
+        3,
+        7
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-003-test-a",
+          "name": "tests/simulation-nominal.test.js::running assets stay within 0.5 percent of nominal over 300 ticks",
+          "covers_acceptance_criteria": [
+            3
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-003-test-b",
+          "name": "tests/simulation-nominal.test.js::standby assets report zero speed and power with NOT_RUNNING",
+          "covers_acceptance_criteria": [
+            3
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-003-test-c",
+          "name": "tests/simulation-nominal.test.js::energy_total integrates real_power per tick and holds on standby",
+          "covers_acceptance_criteria": [
+            7
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 1,
+      "dependencies": [
+        "task-002"
+      ],
+      "dependency_reasons": {
+        "task-002": "loadSim() helper from tests/helpers/load-module.js"
+      },
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-003-s1",
+          "name": "Write simulation-nominal.test.js",
+          "status": "pending"
+        },
+        {
+          "id": "task-003-s2",
+          "name": "Tune wobble constants if needed",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "js",
+          "tests"
+        ],
+        "likely_files": [
+          "js/simulation.js",
+          "tests/simulation-nominal.test.js"
+        ],
+        "reference_patterns": [
+          "Sim.init(schema, sites); Sim.tick(true) x N; Sim.gensets()"
+        ],
+        "notes": "Math.random is used inside the SUT. The 0.5 percent bound is deterministic given WOBBLE_MAX = 0.003, so no seeded RNG seam is needed; if flakiness appears, inject Math on the vm window as a seam. Nominal for load-dependent tags is nominalFor(), not ranges.nominal; test against the same formula."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-004",
+      "name": "Test validation quality codes and event emission",
+      "description": "Assert AC-4: the validate path classifies GOOD, OUT_OF_RANGE, ALARM against per-model ranges, and transitions append events with kind, gensetId, tag, and t. Expose a Sim.validate(gensetId, tag, value) accessor if the closure makes direct classification untestable.",
+      "acceptance_criteria": [
+        4
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-004-test-a",
+          "name": "tests/validation.test.js::classifies GOOD, OUT_OF_RANGE, ALARM against model ranges",
+          "covers_acceptance_criteria": [
+            4
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-004-test-b",
+          "name": "tests/validation.test.js::emits event on entry to OUT_OF_RANGE or ALARM and on return to GOOD",
+          "covers_acceptance_criteria": [
+            4
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 1,
+      "dependencies": [
+        "task-002"
+      ],
+      "dependency_reasons": {
+        "task-002": "loadSim() helper from tests/helpers/load-module.js"
+      },
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-004-s1",
+          "name": "Add Sim.validate accessor",
+          "status": "pending"
+        },
+        {
+          "id": "task-004-s2",
+          "name": "Write validation.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "js",
+          "tests"
+        ],
+        "likely_files": [
+          "js/simulation.js",
+          "tests/validation.test.js"
+        ],
+        "reference_patterns": [
+          "drive a tag via simulateFault or a test-only Sim.setValue(gensetId, tag, value)"
+        ],
+        "notes": "Edits js/simulation.js like task-003 and task-005; keep edits to new accessor functions near the public API block to avoid merge conflicts."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-005",
+      "name": "Test fault injection, clear, site rollup, and fleet totals",
+      "description": "Assert AC-5 and AC-6: simulateFault flags exactly one running asset and its site within FAULT_RAMP_S + 2 ticks while the rest stay healthy; clearFault restores running and GOOD within 5 ticks and logs CLEARED; 20 cycles pick at least 2 distinct assets; fleet() totals match the asset states.",
+      "acceptance_criteria": [
+        5,
+        6
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-005-test-a",
+          "name": "tests/fault.test.js::simulateFault flags one asset and its site, others stay healthy",
+          "covers_acceptance_criteria": [
+            5
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-005-test-b",
+          "name": "tests/fault.test.js::clearFault restores running and GOOD and logs CLEARED",
+          "covers_acceptance_criteria": [
+            5
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-005-test-c",
+          "name": "tests/fault.test.js::20 cycles select at least two distinct assets",
+          "covers_acceptance_criteria": [
+            5
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-005-test-d",
+          "name": "tests/fault.test.js::fleet totals match asset states",
+          "covers_acceptance_criteria": [
+            6
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 1,
+      "dependencies": [
+        "task-002"
+      ],
+      "dependency_reasons": {
+        "task-002": "loadSim() helper from tests/helpers/load-module.js"
+      },
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-005-s1",
+          "name": "Expose FAULT_RAMP_S as Sim.constants",
+          "status": "pending"
+        },
+        {
+          "id": "task-005-s2",
+          "name": "Write fault.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "js",
+          "tests"
+        ],
+        "likely_files": [
+          "js/simulation.js",
+          "tests/fault.test.js"
+        ],
+        "reference_patterns": [
+          "Sim.simulateFault(); for (i<FAULT_RAMP_S+2) Sim.tick(true); Sim.siteStatus(id)"
+        ],
+        "notes": "Random asset selection: 20 cycles over 11 running assets gives a vanishing chance of one asset every time; acceptable without a seam. Edits js/simulation.js alongside task-003/004; confine to the public API block."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-006",
+      "name": "Create js/view.js pure view-model helpers",
+      "description": "Declare and test the pure functions render.js will call: pinClass(siteStatus), formatKpis(fleet, schemaVersion), gaugeArc(value, min, max) returning a fraction clamped to [0,1], sparklinePoints(history, width, height) returning an SVG points string, schemaRows(schema) returning one row per tag with both OEM raw names, and controlGuard(action) returning { allowed: false, message: 'Monitor only. Not permitted to change.' } without touching Sim. Attach as window.View. schemaRows must carry each cell's provenance so render.js can mark estimates.",
+      "acceptance_criteria": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        22
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-006-test-a",
+          "name": "tests/view.test.js::pinClass maps running, standby, fault to pin classes",
+          "covers_acceptance_criteria": [
+            8
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-006-test-b",
+          "name": "tests/view.test.js::formatKpis renders MW to one decimal, running/total, alarms, version",
+          "covers_acceptance_criteria": [
+            9
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-006-test-c",
+          "name": "tests/view.test.js::gaugeArc clamps fraction to [0,1] and sparklinePoints maps history to SVG points",
+          "covers_acceptance_criteria": [
+            10
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-006-test-d",
+          "name": "tests/view.test.js::controlGuard returns the monitor-only message and calls no Sim mutator",
+          "covers_acceptance_criteria": [
+            11
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-006-test-e",
+          "name": "tests/view.test.js::schemaRows returns one row per tag with unit, per-model ranges, both OEM raw names and provenance",
+          "covers_acceptance_criteria": [
+            12,
+            22
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 1.5,
+      "dependencies": [
+        "task-002"
+      ],
+      "dependency_reasons": {
+        "task-002": "loadModule() helper from tests/helpers/load-module.js"
+      },
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-006-s1",
+          "name": "Write js/view.js",
+          "status": "pending"
+        },
+        {
+          "id": "task-006-s2",
+          "name": "Write view.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "js",
+          "tests"
+        ],
+        "likely_files": [
+          "js/view.js",
+          "tests/view.test.js"
+        ],
+        "reference_patterns": [
+          "same IIFE-on-window style as js/simulation.js"
+        ],
+        "notes": "Pure functions, no seams. AC-8, AC-10 visual parts and AC-11 toast display are verified in task-007 (manual callouts); this task covers their pure logic only. controlGuard test passes a spy Sim object and asserts no method was called."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-007",
+      "name": "Build js/render.js and index.html: map, panel, schema modal, toast, 1 s loop",
+      "description": "Wire the page: load data/schema.json and data/sites.json with relative fetch, Sim.init, Leaflet map with CARTO dark basemap centered on Texas, one divIcon pin per site using View.pinClass, header KPIs via View.formatKpis, site panel with genset cards (OEM badge per docs/research/brand-and-specs.md recommendation, unit, model, serial, status dot, two SVG arc gauges via View.gaugeArc, tag table with quality badges and sparklines via View.sparklinePoints, alarm banner), Start/Stop/Load setpoint controls routed through View.controlGuard to a toast, Schema modal from View.schemaRows, Simulate Fault and Clear Fault buttons, footer disclaimer, setInterval 1000 Sim.tick. Automated tests cover the static structure; the browser behavior is Manual verification only per AC-8, AC-10, AC-17, AC-18.",
+      "acceptance_criteria": [
+        8,
+        10,
+        11,
+        12,
+        15,
+        17,
+        18,
+        19,
+        22
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-007-test-a",
+          "name": "tests/page.test.js::index.html references css/style.css, js/simulation.js, js/view.js, js/render.js and Leaflet",
+          "covers_acceptance_criteria": [
+            17
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-007-test-b",
+          "name": "tests/page.test.js::index.html has map, panel, KPI, Simulate Fault, Clear Fault, Schema, toast and footer elements",
+          "covers_acceptance_criteria": [
+            8,
+            10,
+            11,
+            12,
+            22
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-007-test-c",
+          "name": "tests/page.test.js::footer contains the disclaimer verbatim",
+          "covers_acceptance_criteria": [
+            15
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-007-test-d",
+          "name": "tests/page.test.js::no root-absolute local paths in index.html or js/",
+          "covers_acceptance_criteria": [
+            19
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 3,
+      "dependencies": [
+        "task-006"
+      ],
+      "dependency_reasons": {
+        "task-006": "window.View functions pinClass, formatKpis, gaugeArc, sparklinePoints, schemaRows, controlGuard from js/view.js"
+      },
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-007-s1",
+          "name": "Write index.html",
+          "status": "pending"
+        },
+        {
+          "id": "task-007-s2",
+          "name": "Write js/render.js",
+          "status": "pending"
+        },
+        {
+          "id": "task-007-s3",
+          "name": "Run ./run.sh and verify AC-8, AC-10, AC-17, AC-18 in a browser",
+          "status": "pending"
+        },
+        {
+          "id": "task-007-s4",
+          "name": "Record the manual check in result.notes",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "js",
+          "css"
+        ],
+        "likely_files": [
+          "index.html",
+          "js/render.js",
+          "css/style.css"
+        ],
+        "reference_patterns": [
+          "Leaflet 1.9.4 from cdnjs.cloudflare.com",
+          "CARTO dark_all tiles: https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+          "css/style.css already defines .pin, .gauge, .spark, .qb, #toast, .modal-bg classes"
+        ],
+        "notes": "Task spans waived and non-waived ACs, so test_layer stays unit and the browser ACs (8 visual, 10 visual, 17, 18) are covered by the Manual verification only callouts in the PRD text; the coder records the manual pass in result.notes. Reads docs/research/brand-and-specs.md for the badge decision; if absent, use text wordmark badges (.oem.cat / .oem.wks already styled). Brand research (docs/research/brand-and-specs.md) recommends text wordmarks in neutral styling, no logo images, no Cat yellow: restyle .oem.cat/.oem.wks to neutral badge colors. Schema modal marks provenance 'estimate' cells visibly (AC-22)."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-008",
+      "name": "Test palette rule: green and amber only, no red",
+      "description": "Assert AC-13 against css/style.css: no red color tokens appear. The stylesheet exists from the scaffold.",
+      "acceptance_criteria": [
+        13
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-008-test-a",
+          "name": "tests/palette.test.js::style.css contains no red color token",
+          "covers_acceptance_criteria": [
+            13
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "low",
+      "estimated_hours": 0.25,
+      "dependencies": [],
+      "dependency_reasons": {},
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-008-s1",
+          "name": "Write palette.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "css",
+          "tests"
+        ],
+        "likely_files": [
+          "css/style.css",
+          "tests/palette.test.js"
+        ],
+        "reference_patterns": [
+          "regex over the file: /\\bred\\b|#f00\\b|#ff0000|rgb\\(255,\\s*0,\\s*0\\)/i"
+        ],
+        "notes": "Pure file assertion. Must not match 'border' or 'rendered'; use word boundaries."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-009",
+      "name": "Add NO_BROWSER mode to run.sh and an integration test that it serves index.html",
+      "description": "Add NO_BROWSER=1 handling to run.sh so it skips opening a browser, then write an integration test that checks the script is executable, passes bash -n, starts it on a free port, fetches / with HTTP 200 within 3 seconds, and kills it.",
+      "acceptance_criteria": [
+        16
+      ],
+      "test_layer": "integration",
+      "verify_subtasks": [
+        {
+          "id": "task-009-test-a",
+          "name": "tests/run-sh.test.js::run.sh is executable and passes bash -n",
+          "covers_acceptance_criteria": [
+            16
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-009-test-b",
+          "name": "tests/run-sh.test.js::run.sh with NO_BROWSER=1 serves index.html with 200 within 3 s",
+          "covers_acceptance_criteria": [
+            16
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "medium",
+      "estimated_hours": 0.75,
+      "dependencies": [],
+      "dependency_reasons": {},
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-009-s1",
+          "name": "Edit run.sh",
+          "status": "pending"
+        },
+        {
+          "id": "task-009-s2",
+          "name": "Write run-sh.test.js using child_process.spawn and http.get",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "tests"
+        ],
+        "likely_files": [
+          "run.sh",
+          "tests/run-sh.test.js"
+        ],
+        "reference_patterns": [
+          "spawn('bash', ['run.sh', port], { env: { ...process.env, NO_BROWSER: '1' } })"
+        ],
+        "notes": "Integration layer: spawns a real process and real socket, so no DI seam. Pick the port from an ephemeral listen-then-close to avoid collisions across concurrent worktrees. Kill the process group on exit."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-010",
+      "name": "Write README.md with clone-and-run, schema explanation, mapping table, and disclaimer",
+      "description": "Write README.md covering AC-14: what the demo is, clone-and-run via run.sh, a GitHub Pages link line, the schema concept with a table of every canonical tag and both OEM raw names (from data/schema.json), PWR5.7 as a planned addition, and the section 10 disclaimer verbatim. Add a test that checks each required element and that every schema tag name appears in the README.",
+      "acceptance_criteria": [
+        14
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-010-test-a",
+          "name": "tests/readme.test.js::README has run.sh steps, Pages link line, PWR5.7 note, disclaimer verbatim",
+          "covers_acceptance_criteria": [
+            14
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-010-test-b",
+          "name": "tests/readme.test.js::README lists every canonical tag from schema.json with both OEM raw names",
+          "covers_acceptance_criteria": [
+            14
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "medium",
+      "estimated_hours": 1,
+      "dependencies": [],
+      "dependency_reasons": {},
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-010-s1",
+          "name": "Write README.md",
+          "status": "pending"
+        },
+        {
+          "id": "task-010-s2",
+          "name": "Write readme.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "."
+        ],
+        "likely_files": [
+          "README.md",
+          "tests/readme.test.js"
+        ],
+        "reference_patterns": [
+          "disclaimer text in docs/prd.md section 10"
+        ],
+        "notes": "Raw OEM names in schema.json may still read PLACEHOLDER when this runs; the test checks tag names and the presence of both OEM columns, not the raw name values. Re-sync the table after task-011 lands (note in README that data/schema.json is canonical)."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-011",
+      "name": "Populate schema.json ranges and raw OEM names from research and bump to 1.0.0",
+      "description": "Replace every PLACEHOLDER range and raw OEM source name in data/schema.json with the values in docs/research/operating-ranges.md, adding a provenance field ('sourced' or 'estimate') on each range object and each oem_source entry per that doc's labels. Keep real_power nominal/max at the PROPWR package ratings (2.6 and 2.0 MWe per docs/research/brand-and-specs.md). Set version to 1.0.0 and status to the research doc path.",
+      "acceptance_criteria": [
+        22
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-011-test-a",
+          "name": "tests/schema-final.test.js::schema version >= 1.0.0 and no PLACEHOLDER strings",
+          "covers_acceptance_criteria": [
+            22
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        },
+        {
+          "id": "task-011-test-b",
+          "name": "tests/schema-final.test.js::every range and oem_source carries provenance sourced|estimate and every sourced raw name appears in docs/research/operating-ranges.md",
+          "covers_acceptance_criteria": [
+            22
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "high",
+      "estimated_hours": 1,
+      "dependencies": [],
+      "dependency_reasons": {},
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-011-s1",
+          "name": "Read docs/research/operating-ranges.md",
+          "status": "pending"
+        },
+        {
+          "id": "task-011-s2",
+          "name": "Edit data/schema.json",
+          "status": "pending"
+        },
+        {
+          "id": "task-011-s3",
+          "name": "Write schema-final.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "data",
+          "docs/research",
+          "tests"
+        ],
+        "likely_files": [
+          "data/schema.json",
+          "docs/research/operating-ranges.md",
+          "tests/schema-final.test.js"
+        ],
+        "reference_patterns": [
+          "Proposed schema.json ranges JSON block at the end of the research doc"
+        ],
+        "notes": "Research doc exists (written 2026-10-07). EMCP 4 registers are sourced; all Waukesha ESM names and all alarm setpoints are ESTIMATE per the doc, so mark them provenance estimate. Do not downgrade package ratings to OEM engine ratings. Edits data/schema.json, which task-001 only reads."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    },
+    {
+      "id": "task-012",
+      "name": "Verify GitHub Pages readiness",
+      "description": "Assert AC-19 end to end: .nojekyll exists at the repo root and no local asset, data, or script reference in index.html or js/ starts with a slash. Record the Pages URL in README once the repo is pushed.",
+      "acceptance_criteria": [
+        19
+      ],
+      "test_layer": "unit",
+      "verify_subtasks": [
+        {
+          "id": "task-012-test-a",
+          "name": "tests/pages.test.js::.nojekyll exists and all local references are relative",
+          "covers_acceptance_criteria": [
+            19
+          ],
+          "di_seams_required": [],
+          "status": "pending"
+        }
+      ],
+      "waiver": null,
+      "priority": "medium",
+      "estimated_hours": 0.25,
+      "dependencies": [
+        "task-007"
+      ],
+      "dependency_reasons": {
+        "task-007": "index.html and js/render.js, whose fetch and script paths this task checks"
+      },
+      "safety_consideration": null,
+      "subtasks": [
+        {
+          "id": "task-012-s1",
+          "name": "Write pages.test.js",
+          "status": "pending"
+        }
+      ],
+      "hints": {
+        "likely_dirs": [
+          "."
+        ],
+        "likely_files": [
+          ".nojekyll",
+          "index.html",
+          "js/render.js",
+          "tests/pages.test.js"
+        ],
+        "reference_patterns": [
+          "regex over src=, href=, fetch( for a leading / not followed by /"
+        ],
+        "notes": "Overlaps task-007's path test on purpose as the post-merge check. Pure file assertion."
+      },
+      "status": "pending",
+      "result": {
+        "files_created": [],
+        "files_modified": [],
+        "tests_written": [],
+        "tests_run": [],
+        "verify_attempts": 0,
+        "notes": ""
+      },
+      "attempts": 0,
+      "error_log": []
+    }
+  ],
+  "audit": null
+}

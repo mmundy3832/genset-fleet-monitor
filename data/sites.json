@@ -5,8 +5,8 @@
     "9394S5": { "oem": "Waukesha",    "oem_short": "WAUKESHA", "description": "INNIO Waukesha 9394S5 rich-burn gas engine generator set" }
   },
   "units": {
-    "PWR2.6-S": { "model": "G3520",  "rating_mw": 2.6, "form": "skid" },
-    "PWR2.6-M": { "model": "G3520",  "rating_mw": 2.6, "form": "mobile" },
+    "PWR2.6-S": { "model": "G3520",  "rating_mw": 2.6, "form": "stationary (SCR, 0.30 g/bhp-hr NOx)" },
+    "PWR2.6-M": { "model": "G3520",  "rating_mw": 2.6, "form": "temporary mobile (1 g/bhp-hr NOx)" },
     "PWR2.0":   { "model": "9394S5", "rating_mw": 2.0, "form": "mobile" }
   },
   "sites": [
