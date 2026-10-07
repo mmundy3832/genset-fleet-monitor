@@ -1,0 +1,121 @@
+{
+  "$schema_name": "genset-telemetry-schema",
+  "version": "0.1.0-draft",
+  "updated": "2026-10-07",
+  "status": "PLACEHOLDER ranges from general gas-engine knowledge. Replace with sourced values from docs/research/operating-ranges.md before bumping to 1.0.0.",
+  "quality_codes": {
+    "GOOD": "Value inside the defined normal range for the asset model.",
+    "OUT_OF_RANGE": "Value outside normal range but inside alarm limits. Validation event raised.",
+    "ALARM": "Value beyond an alarm limit. Validation event raised, asset flagged.",
+    "NOT_RUNNING": "Asset in standby. Tag not validated."
+  },
+  "tags": [
+    {
+      "tag": "engine_speed",
+      "label": "Engine speed",
+      "unit": "rpm",
+      "decimals": 0,
+      "marquee": true,
+      "ranges": {
+        "G3520":  { "nominal": 1800, "min": 1760, "max": 1840, "alarm_lo": 1700, "alarm_hi": 1900 },
+        "9394S5": { "nominal": 1200, "min": 1170, "max": 1230, "alarm_lo": 1130, "alarm_hi": 1270 }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Engine Speed", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "Engine RPM",   "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    },
+    {
+      "tag": "real_power",
+      "label": "Real power",
+      "unit": "MW",
+      "decimals": 2,
+      "marquee": true,
+      "ranges": {
+        "G3520":  { "nominal": 2.60, "min": 0.00, "max": 2.60, "alarm_lo": null, "alarm_hi": 2.73 },
+        "9394S5": { "nominal": 2.00, "min": 0.00, "max": 2.00, "alarm_lo": null, "alarm_hi": 2.10 }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Generator Total Real Power", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "Gen kW",                     "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    },
+    {
+      "tag": "coolant_temp",
+      "label": "Jacket water temp",
+      "unit": "degC",
+      "decimals": 1,
+      "ranges": {
+        "G3520":  { "nominal": 93.0, "min": 80.0, "max": 99.0, "alarm_lo": null, "alarm_hi": 104.0 },
+        "9394S5": { "nominal": 88.0, "min": 77.0, "max": 96.0, "alarm_lo": null, "alarm_hi": 102.0 }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Engine Coolant Temperature", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "JW Temp",                    "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    },
+    {
+      "tag": "oil_pressure",
+      "label": "Oil pressure",
+      "unit": "kPa",
+      "decimals": 0,
+      "ranges": {
+        "G3520":  { "nominal": 420, "min": 300, "max": 550, "alarm_lo": 240, "alarm_hi": null },
+        "9394S5": { "nominal": 380, "min": 300, "max": 480, "alarm_lo": 210, "alarm_hi": null }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Engine Oil Pressure", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "Oil Press",           "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    },
+    {
+      "tag": "exhaust_temp",
+      "label": "Exhaust temp",
+      "unit": "degC",
+      "decimals": 0,
+      "ranges": {
+        "G3520":  { "nominal": 480, "min": 400, "max": 560, "alarm_lo": null, "alarm_hi": 600 },
+        "9394S5": { "nominal": 650, "min": 560, "max": 720, "alarm_lo": null, "alarm_hi": 760 }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Exhaust Temperature",   "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "Exh Temp (stack)",      "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    },
+    {
+      "tag": "fuel_flow",
+      "label": "Fuel flow",
+      "unit": "scfh",
+      "decimals": 0,
+      "ranges": {
+        "G3520":  { "nominal": 21000, "min": 0, "max": 24000, "alarm_lo": null, "alarm_hi": 25500 },
+        "9394S5": { "nominal": 19000, "min": 0, "max": 21500, "alarm_lo": null, "alarm_hi": 23000 }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Fuel Flow Rate (gas)", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "Fuel Flow",            "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    },
+    {
+      "tag": "energy_total",
+      "label": "Energy total",
+      "unit": "MWh",
+      "decimals": 1,
+      "cumulative": true,
+      "ranges": {
+        "G3520":  { "nominal": null, "min": 0, "max": null, "alarm_lo": null, "alarm_hi": null },
+        "9394S5": { "nominal": null, "min": 0, "max": null, "alarm_lo": null, "alarm_hi": null }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Generator Total kW Hours Export", "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" },
+        "Waukesha":    { "name": "kWh Total",                       "register": "PLACEHOLDER", "scaling": "PLACEHOLDER" }
+      }
+    }
+  ],
+  "fault_scenarios": [
+    { "id": "jw_high",   "tag": "coolant_temp", "direction": "hi", "label": "Jacket water high temperature" },
+    { "id": "oil_low",   "tag": "oil_pressure", "direction": "lo", "label": "Low oil pressure" },
+    { "id": "exh_high",  "tag": "exhaust_temp", "direction": "hi", "label": "High exhaust temperature" },
+    { "id": "overspeed", "tag": "engine_speed", "direction": "hi", "label": "Overspeed" }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "note": "All sites, assets, and serial numbers are fictional. Coordinates are near real Texas towns for plausibility only.",
+  "models": {
+    "G3520":  { "oem": "Caterpillar", "oem_short": "CAT",      "description": "Cat G3520 gas reciprocating engine generator set" },
+    "9394S5": { "oem": "Waukesha",    "oem_short": "WAUKESHA", "description": "INNIO Waukesha 9394S5 rich-burn gas engine generator set" }
+  },
+  "units": {
+    "PWR2.6-S": { "model": "G3520",  "rating_mw": 2.6, "form": "skid" },
+    "PWR2.6-M": { "model": "G3520",  "rating_mw": 2.6, "form": "mobile" },
+    "PWR2.0":   { "model": "9394S5", "rating_mw": 2.0, "form": "mobile" }
+  },
+  "sites": [
+    {
+      "id": "odessa-dc",
+      "name": "Permian Edge Data Center",
+      "type": "data center",
+      "lat": 31.8912, "lon": -102.3208,
+      "gensets": [
+        { "id": "ODC-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F21", "status": "running", "load": 0.92 },
+        { "id": "ODC-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F22", "status": "running", "load": 0.90 },
+        { "id": "ODC-03", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F23", "status": "running", "load": 0.91 },
+        { "id": "ODC-04", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F24", "status": "standby", "load": 0.00 }
+      ]
+    },
+    {
+      "id": "sa-dc",
+      "name": "Hill Country Compute Campus",
+      "type": "data center",
+      "lat": 29.6210, "lon": -98.5460,
+      "gensets": [
+        { "id": "HCC-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D0", "status": "running", "load": 0.88 },
+        { "id": "HCC-02", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D1", "status": "running", "load": 0.87 },
+        { "id": "HCC-03", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D2", "status": "running", "load": 0.89 },
+        { "id": "HCC-04", "unit": "PWR2.0",   "serial": "SIM-WKS-33B0E5", "status": "running", "load": 0.85 }
+      ]
+    },
+    {
+      "id": "midland-pad",
+      "name": "Spraberry Pad 14",
+      "type": "drill head",
+      "lat": 32.1105, "lon": -102.0120,
+      "gensets": [
+        { "id": "SP14-01", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E1", "status": "running", "load": 0.78 },
+        { "id": "SP14-02", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E2", "status": "running", "load": 0.74 }
+      ]
+    },
+    {
+      "id": "pecos-pad",
+      "name": "Wolfcamp Pad 7",
+      "type": "drill head",
+      "lat": 31.3380, "lon": -103.6210,
+      "gensets": [
+        { "id": "WC7-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11E8", "status": "running", "load": 0.81 },
+        { "id": "WC7-02", "unit": "PWR2.0",   "serial": "SIM-WKS-33B0F2", "status": "standby", "load": 0.00 }
+      ]
+    },
+    {
+      "id": "bigspring-hosp",
+      "name": "Big Spring Regional Medical",
+      "type": "hospital",
+      "lat": 32.2410, "lon": -101.4650,
+      "gensets": [
+        { "id": "BSRM-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4002", "status": "running", "load": 0.62 },
+        { "id": "BSRM-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4003", "status": "standby", "load": 0.00 }
+      ]
+    },
+    {
+      "id": "tomball-tc",
+      "name": "Tomball Technology Center test cell",
+      "type": "test cell",
+      "lat": 30.0972, "lon": -95.6161,
+      "gensets": [
+        { "id": "TTC-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A5100", "status": "running", "load": 0.95 }
+      ]
+    }
+  ]
+}
