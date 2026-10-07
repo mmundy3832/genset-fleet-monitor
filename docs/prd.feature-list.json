@@ -483,7 +483,7 @@
             5
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-005-test-b",
@@ -492,7 +492,7 @@
             5
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-005-test-c",
@@ -501,7 +501,7 @@
             5
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-005-test-d",
@@ -510,7 +510,7 @@
             6
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -549,16 +549,63 @@
         ],
         "notes": "Random asset selection: 20 cycles over 11 running assets gives a vanishing chance of one asset every time; acceptable without a seam. Edits js/simulation.js alongside task-003/004; confine to the public API block."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
         "files_created": [],
-        "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "files_modified": [
+          "js/simulation.js"
+        ],
+        "tests_written": [
+          "tests/fault.test.js::simulateFault flags one asset and its site, others stay healthy",
+          "tests/fault.test.js::clearFault restores running and GOOD and logs CLEARED",
+          "tests/fault.test.js::20 cycles select at least two distinct assets",
+          "tests/fault.test.js::fleet totals match asset states"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/fault.test.js::simulateFault flags one asset and its site, others stay healthy",
+            "passed": true
+          },
+          {
+            "method": "tests/fault.test.js::clearFault restores running and GOOD and logs CLEARED",
+            "passed": true
+          },
+          {
+            "method": "tests/fault.test.js::20 cycles select at least two distinct assets",
+            "passed": true
+          },
+          {
+            "method": "tests/fault.test.js::fleet totals match asset states",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "Sim.constants accessor; one of four tests was green on arrival against scaffold fault logic.",
+        "test_files": [
+          "tests/fault.test.js"
+        ],
+        "touched_project_suites": [
+          {
+            "project": "genset-fleet-monitor",
+            "total": 27,
+            "passed": 27,
+            "failed": 0,
+            "failed_methods": []
+          }
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "implement": "claude-haiku",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-005",
+        "red_commit": "68387ac",
+        "green_commit": "9730e85",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
