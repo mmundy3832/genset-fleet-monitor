@@ -2,7 +2,7 @@
   "spec_ref": "prd.md",
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
-  "updated_at": "2026-10-07T17:55:52Z",
+  "updated_at": "2026-10-07T18:01:01Z",
   "status": "pending",
   "safety_critical": false,
   "safety_notes": "",
@@ -167,16 +167,37 @@
         ],
         "notes": "Synthetic waiver per the pure-infrastructure convention (ac_id 0). Consumed by task-003 through task-006."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
         "files_created": [],
         "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "tests_written": [
+          "tests/harness.test.js::loading js/simulation.js exposes Sim with init and tick",
+          "tests/harness.test.js::loadSim initializes every asset from sites.json"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/harness.test.js::loading js/simulation.js exposes Sim with init and tick",
+            "passed": true
+          },
+          {
+            "method": "tests/harness.test.js::loadSim initializes every asset from sites.json",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "Test infrastructure only; written by orchestrator as TestAuthor directly on main (no production code, nothing for a coder). Synthetic infra waiver ac_id 0.",
+        "test_files": [
+          "tests/helpers/load-module.js",
+          "tests/harness.test.js"
+        ],
+        "models_used": {
+          "testauthor": "orchestrator",
+          "verify": "orchestrator"
+        },
+        "green_commit": "71d9907"
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
