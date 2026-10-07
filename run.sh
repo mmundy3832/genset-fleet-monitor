@@ -23,7 +23,9 @@ SERVER_PID=$!
 trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT INT TERM
 sleep 1
 
-if command -v xdg-open >/dev/null 2>&1; then xdg-open "$URL" >/dev/null 2>&1 || true
+if [[ -n "${NO_BROWSER:-}" ]]; then
+  echo "NO_BROWSER set; open $URL in a browser."
+elif command -v xdg-open >/dev/null 2>&1; then xdg-open "$URL" >/dev/null 2>&1 || true
 elif command -v open >/dev/null 2>&1; then open "$URL" || true
 elif command -v cmd.exe >/dev/null 2>&1; then cmd.exe /c start "$URL" || true
 else echo "Open $URL in a browser."
