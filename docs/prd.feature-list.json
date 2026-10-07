@@ -3,7 +3,7 @@
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
   "updated_at": "2026-10-07T18:23:45Z",
-  "status": "passed",
+  "status": "partial",
   "safety_critical": false,
   "safety_notes": "",
   "architecture_decisions": {
@@ -351,7 +351,14 @@
         "integration_returns": 0
       },
       "attempts": 1,
-      "error_log": []
+      "error_log": [
+        {
+          "attempt": 1,
+          "stage": "run-end",
+          "summary": "flaky bound in frozen test",
+          "details": "run-end full suite: 'running assets stay within 0.5 percent of nominal over 300 ticks' failed once (HCC-03 real_power 0.5024% above sample mean). Test measures deviation from the 300-tick sample mean while the simulator bounds the walk at +/-0.3% of nominal, so max deviation from mean can reach 0.6%. Decision pending (tighten WOBBLE_MAX or expose nominal)."
+        }
+      ]
     },
     {
       "id": "task-004",
