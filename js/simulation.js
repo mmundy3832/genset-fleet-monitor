@@ -117,17 +117,7 @@
       }
 
       if (!td.cumulative) t.value = v;
-      var q = validate(gs, td, t.value);
-      if (q !== t.quality) {
-        if (q === "ALARM" || q === "OUT_OF_RANGE") {
-          emit({ kind: q, gensetId: gs.id, tag: td.tag,
-                 msg: gs.id + " " + td.tag + " " + fmt(t.value, td) + " " + td.unit + " -> " + q });
-        } else if ((t.quality === "ALARM" || t.quality === "OUT_OF_RANGE") && q === "GOOD") {
-          emit({ kind: "CLEARED", gensetId: gs.id, tag: td.tag,
-                 msg: gs.id + " " + td.tag + " back in range" });
-        }
-        t.quality = q;
-      }
+      applyQuality(gs, td, t);
 
       t.history.push(t.value);
       if (t.history.length > HISTORY) t.history.shift();
@@ -147,6 +137,22 @@
   function fmt(v, td) {
     if (v == null || isNaN(v)) return "--";
     return v.toFixed(td.decimals);
+  }
+
+  /* Apply quality-transition logic: validate, emit on change, update quality.
+   * Used by both step() and setValue(). */
+  function applyQuality(gs, td, t) {
+    var q = validate(gs, td, t.value);
+    if (q !== t.quality) {
+      if (q === "ALARM" || q === "OUT_OF_RANGE") {
+        emit({ kind: q, gensetId: gs.id, tag: td.tag,
+               msg: gs.id + " " + td.tag + " " + fmt(t.value, td) + " " + td.unit + " -> " + q });
+      } else if ((t.quality === "ALARM" || t.quality === "OUT_OF_RANGE") && q === "GOOD") {
+        emit({ kind: "CLEARED", gensetId: gs.id, tag: td.tag,
+               msg: gs.id + " " + td.tag + " back in range" });
+      }
+      t.quality = q;
+    }
   }
 
   /* ---------- public API ---------- */
@@ -210,12 +216,22 @@
 
     /* Classify a value for one asset's tag against its model ranges (quality code). */
     validate: function (gensetId, tag, value) {
-      throw new Error("NotImplemented: Sim.validate");
+      var gs = gensets[gensetId];
+      if (!gs) throw new Error("Unknown genset: " + gensetId);
+      var td = schema.tags.find(function (t) { return t.tag === tag; });
+      if (!td) throw new Error("Unknown tag: " + tag);
+      return validate(gs, td, value);
     },
 
     /* Test accessor: set one tag's value on an asset and run validation + event emission for it. */
     setValue: function (gensetId, tag, value) {
-      throw new Error("NotImplemented: Sim.setValue");
+      var gs = gensets[gensetId];
+      if (!gs) throw new Error("Unknown genset: " + gensetId);
+      var td = schema.tags.find(function (t) { return t.tag === tag; });
+      if (!td) throw new Error("Unknown tag: " + tag);
+      var t = gs.tags[tag];
+      t.value = value;
+      applyQuality(gs, td, t);
     },
 
     /* Pick a random running asset and push one tag out of spec. */
