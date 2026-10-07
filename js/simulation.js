@@ -7,7 +7,7 @@
   "use strict";
 
   var HISTORY = 60;          // samples kept per tag for sparklines (1 sample/s)
-  var WOBBLE_MAX = 0.003;    // +/- 0.3% of nominal: reads as a healthy machine
+  var WOBBLE_MAX = 0.002;    // +/- 0.2% of nominal: reads as a healthy machine
   var WOBBLE_STEP = 0.0008;  // random-walk step per tick
   var FAULT_RAMP_S = 6;      // seconds to drive a faulted tag past its alarm limit
 

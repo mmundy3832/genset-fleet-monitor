@@ -2,8 +2,8 @@
   "spec_ref": "prd.md",
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
-  "updated_at": "2026-10-07T18:23:45Z",
-  "status": "partial",
+  "updated_at": "2026-10-07T19:09:57Z",
+  "status": "passed",
   "safety_critical": false,
   "safety_notes": "",
   "architecture_decisions": {
@@ -290,12 +290,12 @@
         {
           "id": "task-003-s1",
           "name": "Write simulation-nominal.test.js",
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-003-s2",
           "name": "Tune wobble constants if needed",
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "hints": {
@@ -315,7 +315,9 @@
       "status": "passed",
       "result": {
         "files_created": [],
-        "files_modified": [],
+        "files_modified": [
+          "js/simulation.js"
+        ],
         "tests_written": [
           "tests/simulation-nominal.test.js::running assets stay within 0.5 percent of nominal over 300 ticks",
           "tests/simulation-nominal.test.js::standby assets report zero speed and power with NOT_RUNNING",
@@ -336,7 +338,7 @@
           }
         ],
         "verify_attempts": 1,
-        "notes": "Green on arrival: scaffold simulation already satisfied AC-3 and AC-7; no Implement dispatch.",
+        "notes": "Green on arrival: scaffold simulation already satisfied AC-3 and AC-7; no Implement dispatch. 2026-10-07: o1 applied, WOBBLE_MAX 0.003 -> 0.002; nominal test 40/40 runs green, full suite 32/32.",
         "test_files": [
           "tests/simulation-nominal.test.js"
         ],
@@ -357,6 +359,12 @@
           "stage": "run-end",
           "summary": "flaky bound in frozen test",
           "details": "run-end full suite: 'running assets stay within 0.5 percent of nominal over 300 ticks' failed once (HCC-03 real_power 0.5024% above sample mean). Test measures deviation from the 300-tick sample mean while the simulator bounds the walk at +/-0.3% of nominal, so max deviation from mean can reach 0.6%. Decision pending (tighten WOBBLE_MAX or expose nominal)."
+        },
+        {
+          "attempt": 2,
+          "stage": "run-end",
+          "summary": "flake resolved (o1)",
+          "details": "WOBBLE_MAX tightened to 0.002 so spread about the sample mean is at most 0.4 percent, inside the 0.5 percent band. Frozen test unchanged."
         }
       ]
     },
