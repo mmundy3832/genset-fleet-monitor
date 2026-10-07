@@ -1,0 +1,14 @@
+{
+  "name": "genset-fleet-monitor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static control-room demo: simulated PROPWR genset fleet with a versioned multi-OEM telemetry schema. No build step; vitest is a dev-only test runner.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "start": "./run.sh"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}

@@ -22,7 +22,7 @@
     "data_model": "Site -> Genset (asset) -> live telemetry tags; both OEMs resolve tags through schema.json",
     "fleet_scope": "Cat G3520 (PWR2.6-S, PWR2.6-M) and Waukesha 9394S5 (PWR2.0); Solar Taurus 60 (PWR5.7) deferred",
     "palette": "slate background, green healthy, amber alarm, no red",
-    "tests": "node --test with node:assert, zero dependencies; browser IIFE modules loaded through a vm helper"
+    "tests": "vitest (dev dependency only, no runtime deps); browser IIFE modules loaded through a vm helper in tests/helpers/load-module.js"
   },
   "workspace": null,
   "tasks": [
@@ -84,7 +84,7 @@
       "subtasks": [
         {
           "id": "task-001-s1",
-          "name": "Create tests/ directory and package.json with \"test\": \"node --test tests/\"",
+          "name": "Create tests/ directory and vitest config (already present)",
           "status": "pending"
         },
         {
@@ -110,7 +110,7 @@
           "package.json"
         ],
         "reference_patterns": [
-          "node:test + node:assert/strict, no dependencies"
+          "vitest: import { describe, it, expect } from 'vitest'"
         ],
         "notes": "SUT is JSON data read with fs; pure assertions, no seams. Semver check must accept a -draft prerelease until task-011 lands (AC-22 owns the no-placeholder rule)."
       },
