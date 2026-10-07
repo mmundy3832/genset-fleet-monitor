@@ -47,6 +47,8 @@ Per-site / per-genset panel: radial gauges/arc meters for marquee values (RPM, M
 
 Monitor-only guardrail: controls are visibly present but trigger a "Monitor only. Not permitted to change" message when used.
 
+Hover help: every control carries a title attribute (mouse-over text) that says what it does, e.g. Simulate Fault ("Push one random running unit out of spec; its site pin turns amber"), Clear Fault, Schema, and the per-card Start / Stop / Load setpoint buttons ("Monitor only; this demo cannot change equipment state"). Added 2026-10-07 at Mark's request.
+
 ## 6. Behavior
 
 Nominal: values sit steady with tiny wobble (tenths of a percent around nominal). Reads as a healthy machine, not an RNG.
