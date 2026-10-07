@@ -2,7 +2,7 @@
   "spec_ref": "prd.md",
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
-  "updated_at": "2026-10-07T18:13:53Z",
+  "updated_at": "2026-10-07T18:14:38Z",
   "status": "pending",
   "safety_critical": false,
   "safety_notes": "",
@@ -369,7 +369,7 @@
             4
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-004-test-b",
@@ -378,7 +378,7 @@
             4
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -417,16 +417,53 @@
         ],
         "notes": "Edits js/simulation.js like task-003 and task-005; keep edits to new accessor functions near the public API block to avoid merge conflicts."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
         "files_created": [],
-        "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "files_modified": [
+          "js/simulation.js"
+        ],
+        "tests_written": [
+          "tests/validation.test.js::classifies GOOD, OUT_OF_RANGE, ALARM against model ranges",
+          "tests/validation.test.js::emits event on entry to OUT_OF_RANGE or ALARM and on return to GOOD"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/validation.test.js::classifies GOOD, OUT_OF_RANGE, ALARM against model ranges",
+            "passed": true
+          },
+          {
+            "method": "tests/validation.test.js::emits event on entry to OUT_OF_RANGE or ALARM and on return to GOOD",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "Sim.validate and Sim.setValue accessors; quality-transition logic extracted to applyQuality shared with step().",
+        "test_files": [
+          "tests/validation.test.js"
+        ],
+        "touched_project_suites": [
+          {
+            "project": "genset-fleet-monitor",
+            "total": 21,
+            "passed": 21,
+            "failed": 0,
+            "failed_methods": []
+          }
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "implement": "claude-haiku",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-004",
+        "red_commit": "bca0c59",
+        "green_commit": "8f71a97",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
