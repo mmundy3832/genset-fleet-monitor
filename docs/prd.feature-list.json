@@ -255,7 +255,7 @@
             3
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-003-test-b",
@@ -264,7 +264,7 @@
             3
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-003-test-c",
@@ -273,7 +273,7 @@
             7
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -312,16 +312,45 @@
         ],
         "notes": "Math.random is used inside the SUT. The 0.5 percent bound is deterministic given WOBBLE_MAX = 0.003, so no seeded RNG seam is needed; if flakiness appears, inject Math on the vm window as a seam. Nominal for load-dependent tags is nominalFor(), not ranges.nominal; test against the same formula."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
         "files_created": [],
         "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "tests_written": [
+          "tests/simulation-nominal.test.js::running assets stay within 0.5 percent of nominal over 300 ticks",
+          "tests/simulation-nominal.test.js::standby assets report zero speed and power with NOT_RUNNING",
+          "tests/simulation-nominal.test.js::energy_total integrates real_power per tick and holds on standby"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/simulation-nominal.test.js::running assets stay within 0.5 percent of nominal over 300 ticks",
+            "passed": true
+          },
+          {
+            "method": "tests/simulation-nominal.test.js::standby assets report zero speed and power with NOT_RUNNING",
+            "passed": true
+          },
+          {
+            "method": "tests/simulation-nominal.test.js::energy_total integrates real_power per tick and holds on standby",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "Green on arrival: scaffold simulation already satisfied AC-3 and AC-7; no Implement dispatch.",
+        "test_files": [
+          "tests/simulation-nominal.test.js"
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-003",
+        "green_commit": "0d6ad3a",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
