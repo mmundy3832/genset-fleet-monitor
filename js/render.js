@@ -42,7 +42,7 @@
       if (marker) {
         var newClass = pinClass + (selectedSiteId === site.id ? " selected" : "");
         marker.setIcon(L.divIcon({
-          className: newClass,
+          className: "pin-icon",
           html: '<div class="' + newClass + '"><div class="ring"></div><div class="dot"></div></div>',
           iconSize: [18, 18],
           iconAnchor: [9, 9]
@@ -289,7 +289,7 @@
 
       var marker = L.marker([site.lat, site.lon], {
         icon: L.divIcon({
-          className: pinClass,
+          className: "pin-icon",
           html: '<div class="' + pinClass + '"><div class="ring"></div><div class="dot"></div></div>',
           iconSize: [18, 18],
           iconAnchor: [9, 9]
