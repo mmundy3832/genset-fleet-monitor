@@ -4,12 +4,12 @@ A static control-room demo of a simulated PROPWR natural gas genset fleet across
 
 ## Live demo
 
-GitHub Pages: https://OWNER.github.io/genset-fleet-monitor/ (replace OWNER after the first push)
+GitHub Pages: https://mmundy3832.github.io/genset-fleet-monitor/
 
 ## Run it locally
 
 ```bash
-git clone https://github.com/OWNER/genset-fleet-monitor.git
+git clone https://github.com/mmundy3832/genset-fleet-monitor.git
 cd genset-fleet-monitor
 ./run.sh
 ```
