@@ -2,7 +2,7 @@
   "spec_ref": "prd.md",
   "story_title": "PRD: PROPWR Genset Monitoring Portfolio Demo",
   "created_at": "2026-10-07T17:55:52Z",
-  "updated_at": "2026-10-07T18:14:38Z",
+  "updated_at": "2026-10-07T18:17:51Z",
   "status": "pending",
   "safety_critical": false,
   "safety_notes": "",
@@ -737,7 +737,7 @@
             17
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-007-test-b",
@@ -750,7 +750,7 @@
             22
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-007-test-c",
@@ -759,7 +759,7 @@
             15
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "task-007-test-d",
@@ -768,7 +768,7 @@
             19
           ],
           "di_seams_required": [],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "waiver": null,
@@ -820,16 +820,66 @@
         ],
         "notes": "Task spans waived and non-waived ACs, so test_layer stays unit and the browser ACs (8 visual, 10 visual, 17, 18) are covered by the Manual verification only callouts in the PRD text; the coder records the manual pass in result.notes. Reads docs/research/brand-and-specs.md for the badge decision; if absent, use text wordmark badges (.oem.cat / .oem.wks already styled). Brand research (docs/research/brand-and-specs.md) recommends text wordmarks in neutral styling, no logo images, no Cat yellow: restyle .oem.cat/.oem.wks to neutral badge colors. Schema modal marks provenance 'estimate' cells visibly (AC-22). Hover help (PRD section 5): title attributes on Simulate Fault, Clear Fault, Schema, and card controls; card controls' title explains monitor-only."
       },
-      "status": "pending",
+      "status": "passed",
       "result": {
-        "files_created": [],
-        "files_modified": [],
-        "tests_written": [],
-        "tests_run": [],
-        "verify_attempts": 0,
-        "notes": ""
+        "files_created": [
+          "index.html",
+          "js/render.js"
+        ],
+        "files_modified": [
+          "css/style.css"
+        ],
+        "tests_written": [
+          "tests/page.test.js::index.html references css/style.css, js/simulation.js, js/view.js, js/render.js and Leaflet",
+          "tests/page.test.js::index.html has map, panel, KPI, Simulate Fault, Clear Fault, Schema, toast and footer elements",
+          "tests/page.test.js::footer contains the disclaimer verbatim",
+          "tests/page.test.js::no root-absolute local paths in index.html or js/"
+        ],
+        "tests_run": [
+          {
+            "method": "tests/page.test.js::index.html references css/style.css, js/simulation.js, js/view.js, js/render.js and Leaflet",
+            "passed": true
+          },
+          {
+            "method": "tests/page.test.js::index.html has map, panel, KPI, Simulate Fault, Clear Fault, Schema, toast and footer elements",
+            "passed": true
+          },
+          {
+            "method": "tests/page.test.js::footer contains the disclaimer verbatim",
+            "passed": true
+          },
+          {
+            "method": "tests/page.test.js::no root-absolute local paths in index.html or js/",
+            "passed": true
+          }
+        ],
+        "verify_attempts": 1,
+        "notes": "Headless Chromium check: no console errors, 6 pins rendered, KPIs populated (AC-17 measured). Manual AC-8/10/18 click-through pending Mark. Defect found: CARTO tiles need an API key; fixed in task-012.",
+        "test_files": [
+          "tests/page.test.js"
+        ],
+        "touched_project_suites": [
+          {
+            "project": "genset-fleet-monitor",
+            "total": 23,
+            "passed": 23,
+            "failed": 0,
+            "failed_methods": []
+          }
+        ],
+        "models_used": {
+          "plan": "orchestrator",
+          "testauthor": "orchestrator",
+          "implement": "claude-haiku",
+          "verify": "orchestrator"
+        },
+        "branch": "piv/task-007",
+        "red_commit": "a8a1377",
+        "green_commit": "d73c0a8",
+        "test_tamper_fails": 0,
+        "integration_returns": 0
       },
-      "attempts": 0,
+      "attempts": 1,
       "error_log": []
     },
     {
