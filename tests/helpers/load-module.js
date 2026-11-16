@@ -32,6 +32,7 @@ export function loadSim(opts = {}) {
   const window = loadModule("js/simulation.js");
   const schema = opts.schema || readJson("data/schema.json");
   const sites = opts.sites || readJson("data/sites.json");
-  window.Sim.init(schema, sites);
-  return { Sim: window.Sim, schema, sites, window };
+  const service = opts.service === undefined ? readJson("data/service.json") : opts.service;
+  window.Sim.init(schema, sites, service);
+  return { Sim: window.Sim, schema, sites, service, window };
 }

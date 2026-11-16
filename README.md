@@ -20,7 +20,7 @@ run.sh serves the folder on port 8080 (pass another port as the first argument) 
 
 - Texas map with one pin per site; click a pin for the site panel
 - Per-genset cards with gauges, sparklines, quality badges
-- Simulate Fault pushes one random unit out of spec and its pin goes amber
+- Simulate Fault pushes one random unit out of spec and its pin goes red
 - Clear Fault restores it
 - Controls are monitor-only; activating them shows "Monitor only. Not permitted to change"
 - Schema view shows the canonical tag table
@@ -38,6 +38,8 @@ data/schema.json is the single versioned source of truth. Every value on screen 
 | exhaust_temp | degC | Exhaust Temperature | Exh Temp (stack) |
 | fuel_flow | scfh | Fuel Flow Rate (gas) | Fuel Flow |
 | energy_total | MWh | Generator Total kW Hours Export | kWh Total |
+| enclosure_temp | degC | Enclosure temperature (site sensor) | Enclosure temperature (site sensor) |
+| enclosure_humidity | %RH | Enclosure humidity (site sensor) | Enclosure humidity (site sensor) |
 
 Caterpillar EMCP 4 register names are sourced from the public EMCP 4 Modbus manual. Waukesha ESM names are engineering estimates pending the ESM manual; data/schema.json carries a provenance flag per entry and is canonical over this table.
 

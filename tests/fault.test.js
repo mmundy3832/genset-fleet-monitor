@@ -13,14 +13,14 @@ describe("fault injection", () => {
     expect(C.FAULT_RAMP_S).toBeGreaterThan(0);
     const f = Sim.simulateFault();
     expect(f).not.toBeNull();
-    const gs = Sim.genset(f.gensetId);
+    const gs = Sim.asset(f.gensetId);
     expect(gs.status).toBe("running");
     expect(f.scenario.tag in gs.tags).toBe(true);
     ticks(Sim, C.FAULT_RAMP_S + 2);
     expect(gs.status).toBe("fault");
     expect(gs.tags[f.scenario.tag].quality).toBe("ALARM");
     expect(Sim.siteStatus(gs.siteId)).toBe("fault");
-    for (const other of Object.values(Sim.gensets())) {
+    for (const other of Sim.assets()) {
       if (other.id === gs.id) continue;
       expect(healthy(other), `${other.id} should be healthy`).toBe(true);
     }
@@ -35,7 +35,7 @@ describe("fault injection", () => {
     const { Sim } = loadSim();
     const C = Sim.constants();
     const f = Sim.simulateFault();
-    const gs = Sim.genset(f.gensetId);
+    const gs = Sim.asset(f.gensetId);
     ticks(Sim, C.FAULT_RAMP_S + 2);
     expect(gs.status).toBe("fault");
     const n0 = Sim.events().length;
@@ -61,7 +61,7 @@ describe("fault injection", () => {
     }
     expect(picked.size).toBeGreaterThanOrEqual(2);
     // every asset is back to running after the cycles
-    for (const g of Object.values(Sim.gensets())) expect(g.status).not.toBe("fault");
+    for (const g of Sim.assets()) expect(g.status).not.toBe("fault");
   });
 
   it("fleet totals match asset states", () => {
@@ -73,7 +73,7 @@ describe("fault injection", () => {
       const live = gs.filter((g) => g.status !== "standby");
       expect(f.total).toBe(gs.length);
       expect(f.running).toBe(live.length);
-      expect(f.alarms).toBe(gs.filter((g) => g.status === "fault").length);
+      expect(f.alarms).toBe(Sim.assets().filter((a) => a.status === "fault").length);
       expect(f.mw).toBeCloseTo(live.reduce((s, g) => s + g.tags.real_power.value, 0), 9);
     };
     ticks(Sim, 3); check();

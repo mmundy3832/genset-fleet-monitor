@@ -3,11 +3,17 @@ import fs from "node:fs";
 import path from "node:path";
 import { ROOT, readText } from "./helpers/load-module.js";
 
+// every .js file under a directory, recursively (js/twin/** is included)
+function jsFiles(dir) {
+  return fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? jsFiles(dir + "/" + e.name) : e.name.endsWith(".js") ? [dir + "/" + e.name] : []);
+}
+
 describe("GitHub Pages readiness", () => {
   it(".nojekyll exists and all local references are relative", () => {
     expect(fs.existsSync(path.join(ROOT, ".nojekyll")), ".nojekyll at repo root").toBe(true);
 
-    const files = ["index.html", ...fs.readdirSync(path.join(ROOT, "js")).map((f) => "js/" + f)];
+    const files = ["index.html", ...jsFiles("js")];
     const bad = [];
     for (const f of files) {
       const src = readText(f);

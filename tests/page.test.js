@@ -3,6 +3,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { ROOT, readText } from "./helpers/load-module.js";
 
+// every .js file under a directory, recursively (js/twin/** is included)
+function jsFiles(dir) {
+  return fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? jsFiles(dir + "/" + e.name) : e.name.endsWith(".js") ? [dir + "/" + e.name] : []);
+}
+
 const DISCLAIMER =
   "This is an independent portfolio demonstration built with simulated data. It is not affiliated with, endorsed by, or connected to PROPWR, ProPetro, Caterpillar, or INNIO Waukesha. All telemetry values are generated for illustration only and do not represent any real equipment or installation. OEM names, models, and logos are referenced solely to illustrate a multi-vendor data-normalization concept.";
 const norm = (s) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -72,7 +78,7 @@ describe("index.html structure", () => {
 
   it("no root-absolute local paths in index.html or js/", () => {
     html(); render();
-    const files = ["index.html", ...fs.readdirSync(path.join(ROOT, "js")).map((f) => "js/" + f)];
+    const files = ["index.html", ...jsFiles("js")];
     const bad = [];
     for (const f of files) {
       const src = readText(f);
@@ -82,5 +88,26 @@ describe("index.html structure", () => {
     }
     expect(bad, "root-absolute references break GitHub Pages subpaths").toEqual([]);
     expect(fs.existsSync(path.join(ROOT, ".nojekyll"))).toBe(true);
+  });
+});
+
+describe("3D twin DOM contract", () => {
+  it("index.html has #twin, twin.css, the three import map and the twin module script", () => {
+    const doc = html();
+    const twin = tagWithId(doc, "twin");
+    expect(twin, "#twin").not.toBeNull();
+    expect(twin).toMatch(/\bhidden\b/);
+    expect(doc).toMatch(/<link[^>]+href=["']css\/twin\.css["']/);
+    expect(doc).toMatch(/<script type="importmap">[\s\S]*three@0\.187\.0\/build\/three\.module\.js[\s\S]*three@0\.187\.0\/examples\/jsm\/[\s\S]*<\/script>/);
+    expect(doc).toMatch(/<script[^>]+type=["']module["'][^>]+src=["']js\/twin\/main\.js["']/);
+    expect(doc.indexOf("js/render.js")).toBeLessThan(doc.indexOf("js/twin/main.js"));
+    expect(tagWithId(doc, "btn-theme")).not.toBeNull();
+  });
+
+  it("render.js exposes App and FleetMap", () => {
+    const r = render();
+    expect(r).toMatch(/window\.App\s*=/);
+    expect(r).toMatch(/window\.FleetMap\s*=/);
+    expect(r).toMatch(/World_Light_Gray_Base/);
   });
 });

@@ -4,14 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Genset Fleet Monitor</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f2933'/%3E%3Cpath d='M18 4L8 18h7l-2 10 11-15h-7z' fill='%23f5c518'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/twin.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
   <header>
     <div class="brand">
       Genset Fleet Monitor
-      <small>simulated PROPWR fleet, Texas</small>
+      <small>simulated PROPWR fleet</small>
     </div>
     <div class="kpis">
       <div class="kpi">
@@ -32,8 +42,9 @@
       </div>
     </div>
     <div class="actions">
-      <button id="btn-fault" class="amber" title="Push one random running unit out of spec. Its site pin turns amber and the alarm shows on its card.">Simulate Fault</button>
+      <button id="btn-fault" class="alarm" title="Push one random running unit out of spec. Its site pin turns red and the alarm shows on its card.">Simulate Fault</button>
       <button id="btn-clear" title="Return the faulted unit to nominal and clear its alarm.">Clear Fault</button>
+      <button id="btn-theme" class="ghost" title="Switch between the dark and light theme. Your choice is remembered in this browser.">Light theme</button>
       <button id="btn-schema" class="ghost" title="Open the canonical tag schema: units, per-model ranges, raw OEM names and their provenance.">Schema</button>
     </div>
   </header>
@@ -42,9 +53,11 @@
     <div class="map-legend">
       <span style="background: var(--green);"></span> Running
       <span style="background: var(--gray); margin-left: 12px;"></span> Standby
-      <span style="background: var(--amber); margin-left: 12px;"></span> Alarm
+      <span style="background: var(--alarm); margin-left: 12px;"></span> Alarm
     </div>
   </div>
+
+  <div id="twin" hidden></div>
 
   <aside id="panel">
     <div class="empty">Select a site pin to open its panel.</div>
@@ -85,5 +98,6 @@
   <script src="js/view.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="js/render.js"></script>
+  <script type="module" src="js/twin/main.js"></script>
 </body>
 </html>

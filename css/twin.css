@@ -1,0 +1,248 @@
+/* 3D digital twin: canvas, crossfade and the clear-glass HUD inside #twin.
+ * --hud-tint and --hud-blur are the two glass settings (candidates for user preferences). */
+
+#twin {
+  --hud-tint: 0.12;            /* darkness of the glass, 0 to 1 */
+  --hud-blur: 0px;             /* backdrop blur behind the glass; takes effect with class hud-blur */
+  --hud-line: rgba(255, 255, 255, 0.62);
+  --hud-ink: #ffffff;
+  --hud-ink-2: #dfe7ef;        /* secondary labels: lighter than the sketch, still outlined */
+  --hud-edge: rgba(3, 7, 11, 0.78);
+  --hud-green: #3ddc84;
+  --hud-amber: #f5a623;
+  --hud-alarm: #ff5247;
+  --hud-cyan: #6fd0ff;
+  --hud-grey: #b9c6d4;
+  --hud-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --hud-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  background: transparent;
+  contain: layout paint;
+}
+/* The canvas and HUD crossfade over the 2D map underneath; #twin itself stays transparent
+ * so the loading chip can show over the map while a site is being prepared. */
+#twin > .twin-canvas, #twin > .twin-hud { opacity: 0; transition: opacity 600ms cubic-bezier(0.45, 0, 0.25, 1); }
+#twin.is-visible > .twin-canvas, #twin.is-visible > .twin-hud { opacity: 1; }
+#twin[hidden] { display: none; }
+
+/* Loading chip. Its spinner animates on the compositor, so it keeps turning while the main
+ * thread builds the site. Delayed so a prepared site never flashes it. */
+.twin-loading {
+  position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 11px; border-radius: 999px;
+  font: 600 12px/1 var(--hud-sans); color: #ffffff; background: rgba(9, 14, 20, 0.72); border: 1px solid var(--hud-line);
+  opacity: 0; pointer-events: none; transition: opacity 200ms ease;
+}
+.twin-loading::before {
+  content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.28); border-top-color: #ffffff;
+  animation: twin-spin 800ms linear infinite; will-change: transform;
+}
+#twin.is-loading .twin-loading { opacity: 1; transition: opacity 240ms ease 180ms; }
+@keyframes twin-spin { to { transform: rotate(360deg); } }
+#twin.is-passive, #twin.is-passive * { pointer-events: none !important; }
+
+.twin-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  outline: none; touch-action: none;
+}
+.twin-canvas:focus-visible { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5); }
+
+/* ---- HUD root: text that stays readable over bright sky, concrete and night scenes ---- */
+
+.twin-hud {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  font-family: var(--hud-sans); font-size: 13px; font-weight: 600; line-height: 1.25;
+  color: var(--hud-ink);
+  /* dark outline painted under the fill, plus a tight shadow and a soft halo */
+  -webkit-text-stroke: 3px var(--hud-edge);
+  paint-order: stroke fill;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 7px rgba(0, 0, 0, 0.55);
+  -webkit-font-smoothing: antialiased;
+}
+.twin-hud * { box-sizing: border-box; }
+.twin-hud b { font-weight: 700; }
+.twin-hud i { font-style: normal; }
+
+.twin-glass {
+  background: rgba(9, 14, 20, var(--hud-tint));
+  border: 1px solid var(--hud-line);
+  box-shadow: 0 0 0 1px rgba(3, 7, 11, 0.38), inset 0 0 0 1px rgba(3, 7, 11, 0.22);
+  border-radius: 10px;
+}
+
+/* Light theme: bright ground behind the glass, so the edge and the bar track get a darker line. */
+#twin[data-twin-theme="light"] .twin-glass { box-shadow: 0 0 0 1px rgba(3, 7, 11, 0.6), inset 0 0 0 1px rgba(3, 7, 11, 0.3); }
+#twin[data-twin-theme="light"] .twin-bar { background: rgba(3, 7, 11, 0.34); }
+
+/* Backdrop blur is opt-in (class hud-blur on #twin, set by Twin.setGlass): a backdrop filter
+ * costs a compositor pass per panel even at 0px, and the approved look is no blur. */
+#twin.hud-blur .twin-glass { -webkit-backdrop-filter: blur(var(--hud-blur)); backdrop-filter: blur(var(--hud-blur)); }
+
+.twin-mono, .twin-val, .twin-id { font-family: var(--hud-mono); }
+.twin-lbl {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--hud-ink-2);
+}
+.twin-key { color: var(--hud-ink-2); }
+.twin-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.twin-head { align-items: center; }
+.twin-grid { display: grid; gap: 8px 14px; }
+.twin-grid.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.twin-grid.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.twin-grid.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.twin-cell { display: flex; flex-direction: column; gap: 2px; min-width: 0; border: 1px solid transparent; border-radius: 6px; padding: 3px 5px; margin: -4px -6px; transition: background-color 300ms ease, border-color 300ms ease; }
+.twin-val { font-size: 17px; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.twin-val i { font-size: 10px; font-weight: 600; color: var(--hud-ink-2); }
+.twin-val.word { font-size: 15px; line-height: 23px; font-family: var(--hud-sans); }
+.twin-mono { font-size: 13px; font-variant-numeric: tabular-nums; }
+.twin-mono .big, .twin-mono b.big { font-size: 18px; }
+
+/* a reading out of range: red alarm cell with a shape cue in the label (amber is reserved for warnings) */
+.twin-cell.is-alarm { background: rgba(255, 82, 71, 0.26); border-color: var(--hud-alarm); }
+.twin-cell.is-alarm .twin-lbl::after { content: " \25B2"; }
+.twin-cell.is-alarm .twin-lbl, .twin-cell.is-alarm .twin-val i { color: #ffd9d4; }
+.twin-cell.is-alarm .twin-val { color: #ffc4bd; }
+
+.twin-glyph { width: 13px; height: 13px; flex: none; overflow: visible; }
+.twin-status { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; letter-spacing: 0.1em; white-space: nowrap; }
+.twin-status.run { color: var(--hud-green); }
+.twin-status.stby { color: var(--hud-grey); }
+.twin-status.alarm { color: var(--hud-alarm); }
+.twin-status.svc { color: var(--hud-cyan); }
+
+.twin-bar { height: 7px; border-radius: 4px; background: rgba(255, 255, 255, 0.24); box-shadow: 0 0 0 1px rgba(3, 7, 11, 0.5); overflow: hidden; }
+.twin-bar > div { height: 100%; width: 0; border-radius: 4px; background: var(--hud-green); transition: width 900ms cubic-bezier(0.3, 0, 0.2, 1), background-color 300ms ease; }
+.twin-bar > div.alarm { background: var(--hud-alarm); }
+
+/* ---- facility card, pinned top left ---- */
+
+.twin-site {
+  position: absolute; left: 16px; top: 58px; width: min(392px, calc(100% - 32px));
+  padding: 15px 17px; display: flex; flex-direction: column; gap: 12px;
+  opacity: 0; transform: translate3d(-14px, 0, 0); visibility: hidden;
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s linear 520ms;
+}
+.twin-hud.is-settled[data-mode="facility"] .twin-site { opacity: 1; transform: none; visibility: visible; transition-delay: 60ms, 60ms, 0s; }
+.twin-title { font-size: 21px; font-weight: 800; line-height: 1.2; }
+.twin-site .twin-val { font-size: 20px; }
+.twin-list { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.32); }
+
+/* ---- asset card, anchored to the unit ---- */
+
+.twin-card { position: absolute; left: 0; top: 0; width: min(404px, calc(100% - 28px)); will-change: transform; }
+.twin-card-in {
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 12px;
+  opacity: 0; transform: scale(0.94); visibility: hidden;
+  transition: opacity 260ms ease, transform 300ms ease, visibility 0s linear 300ms;
+}
+.twin-hud.is-settled[data-mode="asset"] .twin-card-in {
+  opacity: 1; transform: none; visibility: visible;
+  transition: opacity 380ms ease 240ms, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 240ms, visibility 0s;
+}
+.twin-id { font-size: 26px; font-weight: 700; letter-spacing: 0.01em; }
+.twin-slot { color: var(--hud-ink-2); font-size: 12px; }
+.twin-load { display: flex; flex-direction: column; gap: 6px; }
+.twin-foot { padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.32); font-size: 12px; flex-wrap: wrap; }
+
+/* compact card for small viewports (class set by hud.js together with the card width) */
+.twin-hud.is-compact .twin-card-in { padding: 11px 12px; gap: 9px; }
+.twin-hud.is-compact .twin-card .twin-id { font-size: 21px; }
+.twin-hud.is-compact .twin-card .twin-val { font-size: 15px; }
+.twin-hud.is-compact .twin-card .twin-grid { gap: 7px 12px; }
+.twin-hud.is-compact .twin-card .twin-grid.g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.twin-hud.is-compact .twin-card .twin-mono { font-size: 12px; }
+.twin-hud.is-compact .twin-card .twin-mono .big { font-size: 16px; }
+.twin-hud.is-compact .twin-card .twin-foot { font-size: 11px; }
+
+/* ---- leader line, anchor dot, reticle ---- */
+
+.twin-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.twin-leader {
+  stroke: #ffffff; stroke-width: 1.2; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0;
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.95));
+  transition: stroke-dashoffset 200ms ease, opacity 200ms ease;
+}
+.twin-dot {
+  fill: #ffffff; stroke: rgba(3, 7, 11, 0.8); stroke-width: 1.5; opacity: 0;
+  transform-box: fill-box; transform-origin: center; transform: scale(0.2);
+  transition: opacity 200ms ease, transform 260ms ease;
+}
+.twin-reticle {
+  fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: square; opacity: 0;
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.95));
+  transition: opacity 400ms ease;
+}
+.twin-hud.is-settled[data-mode="asset"] .twin-svg.is-on .twin-dot { opacity: 1; transform: none; transition-delay: 60ms; }
+.twin-hud.is-settled[data-mode="asset"] .twin-svg.is-on .twin-leader { opacity: 0.95; stroke-dashoffset: 0; transition: stroke-dashoffset 420ms cubic-bezier(0.3, 0, 0.2, 1) 120ms, opacity 120ms ease 120ms; }
+.twin-hud.is-settled[data-mode="asset"] .twin-reticle { opacity: 0.8; transition-delay: 200ms; }
+
+/* ---- per-asset pills ---- */
+
+.twin-pills { position: absolute; inset: 0; }
+.twin-pill {
+  position: absolute; left: 0; top: 0; margin: 0; padding: 0; border: 0; background: none; color: inherit;
+  font: inherit; -webkit-text-stroke: inherit; paint-order: inherit; text-shadow: inherit;
+  cursor: pointer; pointer-events: none; will-change: transform;
+}
+.twin-pill-in {
+  display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  font-family: var(--hud-mono); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
+  opacity: 0; transform: translate3d(0, 6px, 0) scale(0.92);
+  transition: opacity 200ms ease, transform 260ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+.twin-pill-in::after {       /* short tick down to the unit */
+  content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 13px; margin-left: -1px;
+  background: #ffffff; box-shadow: 0 0 0 1px rgba(3, 7, 11, 0.55);
+}
+.twin-pill .sep { color: var(--hud-ink-2); }
+.twin-pill .more { color: var(--hud-ink-2); font-size: 11px; }
+.twin-pill .more:empty { display: none; }
+.twin-pill .g { display: inline-flex; }
+.twin-pill .g .twin-glyph { width: 11px; height: 11px; }
+.twin-hud.pills-on .twin-pill.is-on { pointer-events: auto; }
+.twin-hud.pills-on .twin-pill.is-on .twin-pill-in { opacity: 1; transform: none; }
+.twin-pill[data-s="alarm"] .twin-pill-in { border-color: var(--hud-alarm); background: rgba(255, 82, 71, 0.28); }
+.twin-pill.is-hover .twin-pill-in, .twin-pill:hover .twin-pill-in { background: rgba(9, 14, 20, 0.5); border-color: #ffffff; }
+.twin-pill:focus-visible { outline: none; }
+.twin-pill:focus-visible .twin-pill-in { box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px rgba(3, 7, 11, 0.7); }
+
+/* ---- controls, hint, attribution ---- */
+
+.twin-controls { position: absolute; left: 16px; top: 14px; display: flex; gap: 8px; align-items: center; pointer-events: none; opacity: 0; transition: opacity 320ms ease; }
+.twin-hud:not([data-mode="hidden"]) .twin-controls { opacity: 1; }
+.twin-hud:not([data-mode="hidden"]) .twin-controls > * { pointer-events: auto; }
+.twin-btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 8px; border-radius: 8px;
+  color: inherit; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  -webkit-text-stroke: inherit; paint-order: inherit; text-shadow: inherit;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.twin-btn svg { width: 14px; height: 14px; filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.95)); }
+.twin-btn:hover { background: rgba(9, 14, 20, 0.5); border-color: #ffffff; }
+.twin-btn:focus-visible, .twin-slider:focus-within { outline: 2px solid #ffffff; outline-offset: 2px; }
+.twin-slider {
+  display: none; align-items: center; gap: 9px; height: 32px; padding: 0 12px; border-radius: 8px; font-size: 12px; font-weight: 700;
+}
+.twin-hud[data-mode="asset"] .twin-slider { display: inline-flex; }
+.twin-slider input { width: 120px; accent-color: #ffffff; cursor: pointer; }
+.twin-slider output { font-family: var(--hud-mono); min-width: 4ch; text-align: right; font-variant-numeric: tabular-nums; }
+
+.twin-hint {
+  position: absolute; left: 16px; bottom: 14px; padding: 7px 12px; border-radius: 8px; font-size: 12px; max-width: calc(100% - 32px);
+  opacity: 0; transform: translate3d(0, 8px, 0); transition: opacity 400ms ease 200ms, transform 500ms ease 200ms;
+}
+.twin-hud.is-settled:not([data-mode="hidden"]) .twin-hint { opacity: 1; transform: none; }
+.twin-attrib {
+  position: absolute; right: 10px; bottom: 6px; font-size: 10px; font-weight: 600; color: var(--hud-ink-2);
+  -webkit-text-stroke: 2.5px var(--hud-edge);
+}
+
+@media (max-width: 720px) {
+  .twin-site { width: min(320px, calc(100% - 32px)); padding: 12px 13px; gap: 9px; }
+  .twin-title { font-size: 17px; }
+  .twin-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #twin > .twin-canvas, .twin-hud, .twin-hud * { transition-duration: 1ms !important; transition-delay: 0s !important; }
+  .twin-loading::before { animation-duration: 2.4s; }
+}

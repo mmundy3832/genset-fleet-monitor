@@ -1,7 +1,7 @@
 {
   "$schema_name": "genset-telemetry-schema",
-  "version": "1.0.0",
-  "updated": "2026-10-07",
+  "version": "1.1.0",
+  "updated": "2026-11-16",
   "status": "Operating ranges sourced from docs/research/operating-ranges.md (EMCP 4 registers and Waukesha ESM), package ratings from docs/research/brand-and-specs.md.",
   "quality_codes": {
     "GOOD": "Value inside the defined normal range for the asset model.",
@@ -110,12 +110,63 @@
         "Caterpillar": { "name": "Generator Total Real Energy Exported", "register": "144-145", "scaling": "1 kWh/bit", "provenance": "sourced" },
         "Waukesha":    { "name": "kWh", "register": null, "scaling": null, "provenance": "estimate" }
       }
+    },
+    {
+      "tag": "enclosure_temp",
+      "label": "Enclosure temp",
+      "unit": "degC",
+      "decimals": 1,
+      "ranges": {
+        "G3520":  { "nominal": 42, "min": 20, "max": 55, "alarm_lo": null, "alarm_hi": 65, "provenance": "estimate" },
+        "9394S5": { "nominal": 42, "min": 20, "max": 55, "alarm_lo": null, "alarm_hi": 65, "provenance": "estimate" }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Enclosure temperature (site sensor)", "register": null, "scaling": null, "provenance": "estimate" },
+        "Waukesha":    { "name": "Enclosure temperature (site sensor)", "register": null, "scaling": null, "provenance": "estimate" }
+      }
+    },
+    {
+      "tag": "enclosure_humidity",
+      "label": "Enclosure humidity",
+      "unit": "%RH",
+      "decimals": 0,
+      "ranges": {
+        "G3520":  { "nominal": 22, "min": 5, "max": 60, "alarm_lo": null, "alarm_hi": 85, "provenance": "estimate" },
+        "9394S5": { "nominal": 22, "min": 5, "max": 60, "alarm_lo": null, "alarm_hi": 85, "provenance": "estimate" }
+      },
+      "oem_source": {
+        "Caterpillar": { "name": "Enclosure humidity (site sensor)", "register": null, "scaling": null, "provenance": "estimate" },
+        "Waukesha":    { "name": "Enclosure humidity (site sensor)", "register": null, "scaling": null, "provenance": "estimate" }
+      }
     }
+  ],
+  "bess_tags": [
+    { "tag": "soc", "label": "State of charge", "unit": "%", "decimals": 1,
+      "ranges": { "PWR-BESS5": { "nominal": 82, "min": 10, "max": 100, "alarm_lo": 5, "alarm_hi": null, "provenance": "estimate" } } },
+    { "tag": "soh", "label": "State of health", "unit": "%", "decimals": 1,
+      "ranges": { "PWR-BESS5": { "nominal": 98, "min": 80, "max": 100, "alarm_lo": 70, "alarm_hi": null, "provenance": "estimate" } } },
+    { "tag": "bess_power", "label": "Battery power (+ discharge)", "unit": "MW", "decimals": 2,
+      "ranges": { "PWR-BESS5": { "nominal": 0, "min": -2.5, "max": 2.5, "alarm_lo": null, "alarm_hi": 2.7, "provenance": "estimate" } } },
+    { "tag": "cell_temp_min", "label": "Cell temp min", "unit": "degC", "decimals": 1,
+      "ranges": { "PWR-BESS5": { "nominal": 25, "min": 10, "max": 40, "alarm_lo": null, "alarm_hi": 45, "provenance": "estimate" } } },
+    { "tag": "cell_temp_max", "label": "Cell temp max", "unit": "degC", "decimals": 1,
+      "ranges": { "PWR-BESS5": { "nominal": 28, "min": 10, "max": 40, "alarm_lo": null, "alarm_hi": 45, "provenance": "estimate" } } },
+    { "tag": "rack_voltage", "label": "Rack voltage", "unit": "V", "decimals": 0,
+      "ranges": { "PWR-BESS5": { "nominal": 1250, "min": 1000, "max": 1400, "alarm_lo": 950, "alarm_hi": 1450, "provenance": "estimate" } } },
+    { "tag": "bess_humidity", "label": "Container humidity", "unit": "%RH", "decimals": 0,
+      "ranges": { "PWR-BESS5": { "nominal": 40, "min": 15, "max": 60, "alarm_lo": null, "alarm_hi": 85, "provenance": "estimate" } } },
+    { "tag": "h2", "label": "Hydrogen", "unit": "%LEL", "decimals": 1,
+      "ranges": { "PWR-BESS5": { "nominal": 0.5, "min": 0, "max": 10, "alarm_lo": null, "alarm_hi": 25, "provenance": "estimate" } } },
+    { "tag": "co", "label": "Carbon monoxide", "unit": "ppm", "decimals": 1,
+      "ranges": { "PWR-BESS5": { "nominal": 1.5, "min": 0, "max": 25, "alarm_lo": null, "alarm_hi": 100, "provenance": "estimate" } } },
+    { "tag": "hvac_state", "label": "HVAC state", "unit": "", "decimals": 0, "enum": ["idle", "cooling", "fault"],
+      "ranges": { "PWR-BESS5": { "nominal": null, "min": null, "max": null, "alarm_lo": null, "alarm_hi": null, "provenance": "estimate" } } }
   ],
   "fault_scenarios": [
     { "id": "jw_high",   "tag": "coolant_temp", "direction": "hi", "label": "Jacket water high temperature" },
     { "id": "oil_low",   "tag": "oil_pressure", "direction": "lo", "label": "Low oil pressure" },
     { "id": "exh_high",  "tag": "exhaust_temp", "direction": "hi", "label": "High exhaust temperature" },
-    { "id": "overspeed", "tag": "engine_speed", "direction": "hi", "label": "Overspeed" }
+    { "id": "overspeed", "tag": "engine_speed", "direction": "hi", "label": "Overspeed" },
+    { "id": "bess_h2",  "tag": "h2", "direction": "hi", "label": "Battery container hydrogen rising", "target": "bess" }
   ]
 }

@@ -1,76 +1,148 @@
 {
-  "note": "All sites, assets, and serial numbers are fictional. Coordinates are near real Texas towns for plausibility only.",
-  "models": {
-    "G3520":  { "oem": "Caterpillar", "oem_short": "CAT",      "description": "Cat G3520 gas reciprocating engine generator set" },
-    "9394S5": { "oem": "Waukesha",    "oem_short": "WAUKESHA", "description": "INNIO Waukesha 9394S5 rich-burn gas engine generator set" }
-  },
-  "units": {
-    "PWR2.6-S": { "model": "G3520",  "rating_mw": 2.6, "form": "stationary (SCR, 0.30 g/bhp-hr NOx)" },
-    "PWR2.6-M": { "model": "G3520",  "rating_mw": 2.6, "form": "temporary mobile (1 g/bhp-hr NOx)" },
-    "PWR2.0":   { "model": "9394S5", "rating_mw": 2.0, "form": "mobile" }
-  },
+  "note": "All sites, customers, assets, and serial numbers are fictional. Coordinates are near real towns for plausibility only.",
+  "models": {"G3520": {"oem": "Caterpillar", "oem_short": "CAT", "description": "Cat G3520 gas reciprocating engine generator set"},
+    "9394S5": {"oem": "Waukesha", "oem_short": "WAUKESHA", "description": "INNIO Waukesha 9394S5 rich-burn gas engine generator set"}},
+  "units": {"PWR2.6-S": {"model": "G3520", "rating_mw": 2.6, "form": "stationary (SCR, 0.30 g/bhp-hr NOx)"},
+    "PWR2.6-M": {"model": "G3520", "rating_mw": 2.6, "form": "temporary mobile (1 g/bhp-hr NOx)"},
+    "PWR2.0": {"model": "9394S5", "rating_mw": 2.0, "form": "mobile"}},
+  "bess_units": {"PWR-BESS5": {"model": "PWR-BESS5", "oem_short": "PWR", "rating_mw": 2.5, "rating_mwh": 5.0, "form": "20 ft liquid-cooled LFP container"}},
   "sites": [
     {
       "id": "odessa-dc",
       "name": "Permian Edge Data Center",
       "type": "data center",
-      "lat": 31.8912, "lon": -102.3208,
+      "lat": 31.8912,
+      "lon": -102.3208,
+      "customer": "Basin Compute Partners",
+      "redundancy": "N+1",
       "gensets": [
-        { "id": "ODC-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F21", "status": "running", "load": 0.92 },
-        { "id": "ODC-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F22", "status": "running", "load": 0.90 },
-        { "id": "ODC-03", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F23", "status": "running", "load": 0.91 },
-        { "id": "ODC-04", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F24", "status": "standby", "load": 0.00 }
+        {"id": "ODC-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F31", "status": "running", "load": 0.92, "assetNo": "PW-26S-0101", "commissioned": "2025-07-08", "runHours": 10539, "starts": 190},
+        {"id": "ODC-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F32", "status": "running", "load": 0.9, "assetNo": "PW-26S-0102", "commissioned": "2025-07-14", "runHours": 10551, "starts": 139},
+        {"id": "ODC-03", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F33", "status": "running", "load": 0.91, "assetNo": "PW-26S-0103", "commissioned": "2025-07-20", "runHours": 10671, "starts": 207},
+        {"id": "ODC-04", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F34", "status": "standby", "load": 0.0, "assetNo": "PW-26S-0104", "commissioned": "2025-07-26", "runHours": 401, "starts": 57}
       ]
     },
     {
       "id": "sa-dc",
       "name": "Hill Country Compute Campus",
       "type": "data center",
-      "lat": 29.6210, "lon": -98.5460,
+      "lat": 29.621,
+      "lon": -98.546,
+      "customer": "Lone Star Cloud Holdings",
+      "redundancy": "N+1",
       "gensets": [
-        { "id": "HCC-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D0", "status": "running", "load": 0.88 },
-        { "id": "HCC-02", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D1", "status": "running", "load": 0.87 },
-        { "id": "HCC-03", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D2", "status": "running", "load": 0.89 },
-        { "id": "HCC-04", "unit": "PWR2.0",   "serial": "SIM-WKS-33B0E5", "status": "running", "load": 0.85 }
+        {"id": "HCC-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D0", "status": "running", "load": 0.88, "assetNo": "PW-26M-0201", "commissioned": "2025-09-15", "runHours": 9208, "starts": 197},
+        {"id": "HCC-02", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D1", "status": "running", "load": 0.87, "assetNo": "PW-26M-0202", "commissioned": "2025-09-23", "runHours": 9071, "starts": 153},
+        {"id": "HCC-03", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11D2", "status": "running", "load": 0.89, "assetNo": "PW-26M-0203", "commissioned": "2025-10-01", "runHours": 8733, "starts": 194},
+        {"id": "HCC-04", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E5", "status": "running", "load": 0.85, "assetNo": "PW-20M-0301", "commissioned": "2025-10-09", "runHours": 8833, "starts": 188}
       ]
     },
     {
       "id": "midland-pad",
       "name": "Spraberry Pad 14",
       "type": "drill head",
-      "lat": 32.1105, "lon": -102.0120,
+      "lat": 32.1105,
+      "lon": -102.012,
+      "customer": "Mesa Verde Energy Operating",
+      "redundancy": "N",
       "gensets": [
-        { "id": "SP14-01", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E1", "status": "running", "load": 0.78 },
-        { "id": "SP14-02", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E2", "status": "running", "load": 0.74 }
+        {"id": "SP14-01", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E1", "status": "running", "load": 0.78, "assetNo": "PW-20M-0302", "commissioned": "2025-11-03", "runHours": 8214, "starts": 170},
+        {"id": "SP14-02", "unit": "PWR2.0", "serial": "SIM-WKS-33B0E2", "status": "running", "load": 0.74, "assetNo": "PW-20M-0303", "commissioned": "2025-11-15", "runHours": 8186, "starts": 171}
       ]
     },
     {
       "id": "pecos-pad",
       "name": "Wolfcamp Pad 7",
       "type": "drill head",
-      "lat": 31.6, "lon": -102.9,
+      "lat": 31.6,
+      "lon": -102.9,
+      "customer": "Delaware Ridge Resources",
+      "redundancy": "N+1",
       "gensets": [
-        { "id": "WC7-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11E8", "status": "running", "load": 0.81 },
-        { "id": "WC7-02", "unit": "PWR2.0",   "serial": "SIM-WKS-33B0F2", "status": "standby", "load": 0.00 }
+        {"id": "WC7-01", "unit": "PWR2.6-M", "serial": "SIM-CAT-9C11E8", "status": "running", "load": 0.81, "assetNo": "PW-26M-0204", "commissioned": "2025-12-01", "runHours": 7592, "starts": 133},
+        {"id": "WC7-02", "unit": "PWR2.0", "serial": "SIM-WKS-33B0F2", "status": "standby", "load": 0.0, "assetNo": "PW-20M-0304", "commissioned": "2025-12-10", "runHours": 286, "starts": 40}
       ]
     },
     {
       "id": "bigspring-hosp",
-      "name": "Big Spring Regional Medical",
+      "name": "Caprock Regional Medical Center",
       "type": "hospital",
-      "lat": 32.2410, "lon": -101.4650,
+      "lat": 32.241,
+      "lon": -101.465,
+      "customer": "Caprock Regional Medical Center",
+      "redundancy": "N+1",
+      "beds": 400,
+      "peak_mw": 4.5,
       "gensets": [
-        { "id": "BSRM-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4002", "status": "running", "load": 0.62 },
-        { "id": "BSRM-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4003", "status": "standby", "load": 0.00 }
+        {"id": "BSRM-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4002", "status": "running", "load": 0.58, "assetNo": "PW-26S-0105", "commissioned": "2025-06-11", "runHours": 11681, "starts": 204},
+        {"id": "BSRM-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A3F21", "status": "running", "load": 0.6, "assetNo": "PW-26S-0147", "commissioned": "2025-06-18", "runHours": 11482, "starts": 214},
+        {"id": "BSRM-03", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4004", "status": "running", "load": 0.57, "assetNo": "PW-26S-0106", "commissioned": "2025-06-25", "runHours": 11340, "starts": 200},
+        {"id": "BSRM-04", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A4005", "status": "standby", "load": 0.0, "assetNo": "PW-26S-0107", "commissioned": "2025-07-02", "runHours": 421, "starts": 60}
+      ],
+      "bess": [
+        {"id": "BSRM-B1", "unit": "PWR-BESS5", "serial": "SIM-BES-4C1001", "status": "running", "assetNo": "PW-BE-0401", "commissioned": "2025-09-10", "runHours": 10357, "starts": 385},
+        {"id": "BSRM-B2", "unit": "PWR-BESS5", "serial": "SIM-BES-4C1002", "status": "running", "assetNo": "PW-BE-0402", "commissioned": "2025-09-12", "runHours": 10309, "starts": 388}
       ]
     },
     {
       "id": "tomball-tc",
       "name": "Tomball Technology Center test cell",
       "type": "test cell",
-      "lat": 30.0972, "lon": -95.6161,
+      "lat": 30.0972,
+      "lon": -95.6161,
+      "customer": "Tomball Technology Labs",
+      "redundancy": "N",
       "gensets": [
-        { "id": "TTC-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A5100", "status": "running", "load": 0.95 }
+        {"id": "TTC-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-7A5100", "status": "running", "load": 0.95, "assetNo": "PW-26S-0108", "commissioned": "2025-06-24", "runHours": 11478, "starts": 194}
+      ]
+    },
+    {
+      "id": "midwest-dc",
+      "name": "Midwest Hyperscale Campus",
+      "type": "data center",
+      "customer": "Midwest Hyperscale Campus",
+      "lat": 41.26,
+      "lon": -95.86,
+      "redundancy": "N+3",
+      "peak_mw": 60,
+      "note": "Pin location is illustrative. 13.8 kV paralleling switchgear, step-up to 34.5 kV.",
+      "gensets": [
+        {"id": "MWH-01", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0101", "status": "running", "load": 0.91, "assetNo": "PW-26S-0109", "commissioned": "2026-03-02", "runHours": 5720, "starts": 111},
+        {"id": "MWH-02", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0102", "status": "running", "load": 0.92, "assetNo": "PW-26S-0110", "commissioned": "2026-03-07", "runHours": 5521, "starts": 72},
+        {"id": "MWH-03", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0103", "status": "running", "load": 0.91, "assetNo": "PW-26S-0111", "commissioned": "2026-03-12", "runHours": 5575, "starts": 115},
+        {"id": "MWH-04", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0104", "status": "running", "load": 0.92, "assetNo": "PW-26S-0112", "commissioned": "2026-03-17", "runHours": 5196, "starts": 103},
+        {"id": "MWH-05", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0105", "status": "running", "load": 0.93, "assetNo": "PW-26S-0113", "commissioned": "2026-03-22", "runHours": 5279, "starts": 102},
+        {"id": "MWH-06", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0106", "status": "running", "load": 0.93, "assetNo": "PW-26S-0114", "commissioned": "2026-03-27", "runHours": 5265, "starts": 115},
+        {"id": "MWH-07", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0107", "status": "running", "load": 0.93, "assetNo": "PW-26S-0115", "commissioned": "2026-04-01", "runHours": 4919, "starts": 80},
+        {"id": "MWH-08", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0108", "status": "running", "load": 0.92, "assetNo": "PW-26S-0116", "commissioned": "2026-04-06", "runHours": 5052, "starts": 86},
+        {"id": "MWH-09", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0109", "status": "running", "load": 0.91, "assetNo": "PW-26S-0117", "commissioned": "2026-04-11", "runHours": 4829, "starts": 92},
+        {"id": "MWH-10", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B010A", "status": "running", "load": 0.91, "assetNo": "PW-26S-0118", "commissioned": "2026-04-16", "runHours": 4767, "starts": 75},
+        {"id": "MWH-11", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B010B", "status": "running", "load": 0.91, "assetNo": "PW-26S-0119", "commissioned": "2026-04-21", "runHours": 4475, "starts": 95},
+        {"id": "MWH-12", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B010C", "status": "running", "load": 0.92, "assetNo": "PW-26S-0120", "commissioned": "2026-04-26", "runHours": 4311, "starts": 58},
+        {"id": "MWH-13", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B010D", "status": "running", "load": 0.91, "assetNo": "PW-26S-0121", "commissioned": "2026-05-01", "runHours": 4455, "starts": 97},
+        {"id": "MWH-14", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B010E", "status": "running", "load": 0.93, "assetNo": "PW-26S-0122", "commissioned": "2026-05-06", "runHours": 4321, "starts": 93},
+        {"id": "MWH-15", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B010F", "status": "running", "load": 0.91, "assetNo": "PW-26S-0123", "commissioned": "2026-05-11", "runHours": 4089, "starts": 56},
+        {"id": "MWH-16", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0110", "status": "running", "load": 0.93, "assetNo": "PW-26S-0124", "commissioned": "2026-05-16", "runHours": 4069, "starts": 67},
+        {"id": "MWH-17", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0111", "status": "running", "load": 0.92, "assetNo": "PW-26S-0125", "commissioned": "2026-05-21", "runHours": 3978, "starts": 66},
+        {"id": "MWH-18", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0112", "status": "running", "load": 0.92, "assetNo": "PW-26S-0126", "commissioned": "2026-05-26", "runHours": 3783, "starts": 72},
+        {"id": "MWH-19", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0113", "status": "running", "load": 0.93, "assetNo": "PW-26S-0127", "commissioned": "2026-05-31", "runHours": 3577, "starts": 54},
+        {"id": "MWH-20", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0114", "status": "running", "load": 0.92, "assetNo": "PW-26S-0128", "commissioned": "2026-06-05", "runHours": 3571, "starts": 74},
+        {"id": "MWH-21", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0115", "status": "running", "load": 0.92, "assetNo": "PW-26S-0129", "commissioned": "2026-06-10", "runHours": 3458, "starts": 68},
+        {"id": "MWH-22", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0116", "status": "running", "load": 0.92, "assetNo": "PW-26S-0130", "commissioned": "2026-06-15", "runHours": 3465, "starts": 48},
+        {"id": "MWH-23", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0117", "status": "running", "load": 0.93, "assetNo": "PW-26S-0131", "commissioned": "2026-06-20", "runHours": 3344, "starts": 44},
+        {"id": "MWH-24", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0118", "status": "running", "load": 0.91, "assetNo": "PW-26S-0132", "commissioned": "2026-06-25", "runHours": 3129, "starts": 62},
+        {"id": "MWH-25", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B0119", "status": "running", "load": 0.92, "assetNo": "PW-26S-0133", "commissioned": "2026-06-30", "runHours": 3123, "starts": 57},
+        {"id": "MWH-26", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B011A", "status": "standby", "load": 0.0, "assetNo": "PW-26S-0134", "commissioned": "2026-07-05", "runHours": 112, "starts": 16},
+        {"id": "MWH-27", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B011B", "status": "standby", "load": 0.0, "assetNo": "PW-26S-0135", "commissioned": "2026-07-10", "runHours": 108, "starts": 15},
+        {"id": "MWH-28", "unit": "PWR2.6-S", "serial": "SIM-CAT-8B011C", "status": "standby", "load": 0.0, "assetNo": "PW-26S-0136", "commissioned": "2026-07-15", "runHours": 104, "starts": 14}
+      ],
+      "bess": [
+        {"id": "MWH-B1", "unit": "PWR-BESS5", "serial": "SIM-BES-5D2001", "status": "running", "assetNo": "PW-BE-0403", "commissioned": "2026-05-01", "runHours": 4771, "starts": 184},
+        {"id": "MWH-B2", "unit": "PWR-BESS5", "serial": "SIM-BES-5D2002", "status": "running", "assetNo": "PW-BE-0404", "commissioned": "2026-05-10", "runHours": 4555, "starts": 150},
+        {"id": "MWH-B3", "unit": "PWR-BESS5", "serial": "SIM-BES-5D2003", "status": "running", "assetNo": "PW-BE-0405", "commissioned": "2026-05-19", "runHours": 4339, "starts": 135},
+        {"id": "MWH-B4", "unit": "PWR-BESS5", "serial": "SIM-BES-5D2004", "status": "running", "assetNo": "PW-BE-0406", "commissioned": "2026-05-28", "runHours": 4123, "starts": 157},
+        {"id": "MWH-B5", "unit": "PWR-BESS5", "serial": "SIM-BES-5D2005", "status": "running", "assetNo": "PW-BE-0407", "commissioned": "2026-06-06", "runHours": 3908, "starts": 120},
+        {"id": "MWH-B6", "unit": "PWR-BESS5", "serial": "SIM-BES-5D2006", "status": "running", "assetNo": "PW-BE-0408", "commissioned": "2026-06-15", "runHours": 3692, "starts": 143}
       ]
     }
   ]
